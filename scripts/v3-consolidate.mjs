@@ -1,4 +1,4 @@
-import { readFile, writeFile, readdir, unlink, access } from 'node:fs/promises';
+import { readFile, writeFile, readdir, access } from 'node:fs/promises';
 import { join } from 'node:path';
 
 const ROOT = process.cwd();
@@ -53,6 +53,28 @@ function stripScripts(html, names) {
   return html;
 }
 
+function removeServiceWorkerRegistration(source) {
+  const exactBlock = `(() => {
+  'use strict';
+  if (!('serviceWorker' in navigator) || location.protocol !== 'https:') return;
+  window.addEventListener('load', () => navigator.serviceWorker.register('/service-worker.js').catch(() => {}));
+})();`;
+
+  if (source.includes(exactBlock)) return source.replace(exactBlock, '').replace(/\n{3,}/g, '\n\n');
+
+  const marker = "navigator.serviceWorker.register('/service-worker.js')";
+  const markerIndex = source.indexOf(marker);
+  if (markerIndex < 0) return source;
+
+  const blockStart = source.lastIndexOf('(() => {', markerIndex);
+  const blockEnd = source.indexOf('})();', markerIndex);
+  if (blockStart < 0 || blockEnd < 0) {
+    throw new Error('Se encontró el registro del Service Worker, pero no se pudo aislar su bloque.');
+  }
+
+  return `${source.slice(0, blockStart)}${source.slice(blockEnd + 5)}`.replace(/\n{3,}/g, '\n\n');
+}
+
 async function collectDetailPages(dir, result = []) {
   for (const entry of await readdir(dir, { withFileTypes:true })) {
     if (['admin','assets'].includes(entry.name)) continue;
@@ -94,7 +116,10 @@ if (!pwaEnabled) {
   if (!index.includes('/assets/js/pwa-cleanup.js')) index = index.replace('</body>', '  <script src="/assets/js/pwa-cleanup.js" defer></script>\n</body>');
   const enhancementsPath = join(DIST,'assets/js/enhancements.js');
   let enhancements = await readFile(enhancementsPath,'utf8');
-  enhancements = enhancements.replace(/\(\(\) => \{\s*'use strict';\s*if \(!\('serviceWorker' in navigator\)[\s\S]*?serviceWorker\.register\('\/service-worker\.js'\)[\s\S]*?\}\);\s*\}\)\(\);?/m, '');
+  enhancements = removeServiceWorkerRegistration(enhancements);
+  if (enhancements.includes("navigator.serviceWorker.register('/service-worker.js')")) {
+    throw new Error('La demo desactiva PWA pero enhancements.js todavía registra el Service Worker.');
+  }
   await writeFile(enhancementsPath, enhancements, 'utf8');
 }
 await writeFile(join(DIST,'index.html'), index, 'utf8');
