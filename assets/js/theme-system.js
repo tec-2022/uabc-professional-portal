@@ -68,8 +68,7 @@
     if (isHome(section)) {
       const name = section.querySelector('[data-i18n="title_name"]');
       if (name) name.classList.add('portal-profile-name');
-      const hero = name?.closest('header');
-      hero?.querySelectorAll('p').forEach(p => p.classList.add('portal-page-intro'));
+      /* Home keeps the original biography spacing/justification instead of section-intro margins. */
     } else {
       const title = section.querySelector('h2');
       if (title) {
@@ -79,9 +78,11 @@
       }
     }
 
-    section.querySelectorAll('h3,h4').forEach(heading => {
+    section.querySelectorAll('h3').forEach(heading => {
       heading.classList.add(insideCard(heading) ? 'portal-card-title' : 'portal-section-heading');
     });
+    /* H4 remains a subordinate level, including legal-page subsections. */
+    section.querySelectorAll('h4').forEach(heading => heading.classList.add('portal-card-title'));
 
     section.querySelectorAll('.text-xs,.text-sm').forEach(node => {
       if (!node.matches('h1,h2,h3,h4,strong')) node.classList.add('portal-meta');
