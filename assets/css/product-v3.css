@@ -1,0 +1,181 @@
+/* Academic Professional Portal 3.0 — product components.
+ * This file contains only semantic components introduced in Phase 3.
+ * It is bundled into portal.css during production build.
+ */
+
+.portal-home-summary {
+  display:grid;
+  grid-template-columns:repeat(4,minmax(0,1fr));
+  gap:.85rem;
+  margin:1.75rem 0 2rem;
+}
+.portal-metric {
+  min-width:0;
+  padding:1rem 1.05rem;
+  border:1px solid var(--ui-line);
+  border-radius:var(--ui-radius);
+  background:var(--ui-surface);
+  box-shadow:var(--ui-shadow);
+}
+.portal-metric strong {
+  display:block;
+  margin-bottom:.18rem;
+  color:var(--ui-heading) !important;
+  font-size:1.55rem;
+  line-height:1;
+  font-variant-numeric:tabular-nums;
+}
+.portal-metric span {
+  display:block;
+  color:var(--ui-muted);
+  font-size:.78rem;
+  font-weight:650;
+  line-height:1.35;
+  letter-spacing:.02em;
+}
+
+.portal-home-actions {
+  display:flex;
+  flex-wrap:wrap;
+  gap:.7rem;
+  margin:-.7rem 0 2rem;
+}
+.portal-action {
+  display:inline-flex;
+  min-height:2.65rem;
+  align-items:center;
+  justify-content:center;
+  gap:.45rem;
+  padding:.65rem .9rem;
+  border:1px solid var(--ui-line-strong);
+  border-radius:.72rem;
+  background:var(--ui-surface);
+  color:var(--ui-heading) !important;
+  font-size:.86rem;
+  font-weight:700;
+  text-decoration:none !important;
+  box-shadow:0 8px 22px -20px rgba(15,23,42,.7);
+  transition:transform .16s ease,border-color .16s ease,background .16s ease;
+}
+.portal-action:hover {
+  transform:translateY(-1px);
+  border-color:color-mix(in srgb,var(--ui-link) 48%,var(--ui-line));
+  background:var(--ui-surface-soft);
+}
+.portal-action.primary {
+  border-color:var(--ui-green-2);
+  background:var(--ui-green-2);
+  color:#fff !important;
+}
+.portal-action.primary:hover { background:var(--ui-green); }
+
+.portal-empty-state {
+  display:grid;
+  place-items:center;
+  min-height:10rem;
+  padding:2rem 1rem;
+  border:1px dashed var(--ui-line-strong);
+  border-radius:var(--ui-radius);
+  background:var(--ui-surface-soft);
+  text-align:center;
+}
+.portal-empty-state__icon {
+  display:grid;
+  width:2.75rem;
+  height:2.75rem;
+  place-items:center;
+  margin-bottom:.65rem;
+  border-radius:999px;
+  background:color-mix(in srgb,var(--ui-link) 10%,var(--ui-surface));
+  color:var(--ui-link);
+  font-size:1.15rem;
+}
+.portal-empty-state strong {
+  display:block;
+  color:var(--ui-heading) !important;
+  font-size:.95rem;
+}
+.portal-empty-state p {
+  max-width:42ch;
+  margin:.25rem 0 0;
+  color:var(--ui-muted) !important;
+  font-size:.84rem;
+  line-height:1.55;
+}
+
+.portal-card-tools {
+  display:flex;
+  flex-wrap:wrap;
+  gap:.45rem;
+  margin-top:.8rem;
+  padding-top:.72rem;
+  border-top:1px solid var(--ui-line);
+}
+.portal-card-tool {
+  display:inline-flex;
+  align-items:center;
+  gap:.35rem;
+  min-height:2rem;
+  padding:.34rem .58rem;
+  border:1px solid var(--ui-line);
+  border-radius:.55rem;
+  background:var(--ui-surface-soft);
+  color:var(--ui-link) !important;
+  font-size:.75rem;
+  font-weight:700;
+  cursor:pointer;
+}
+.portal-card-tool:hover { border-color:var(--ui-line-strong); background:var(--ui-surface); }
+.portal-card-tool[data-state="done"] { color:#14733e !important; }
+html.dark .portal-card-tool[data-state="done"] { color:#9de0bb !important; }
+
+.portal-inline-status {
+  display:inline-flex;
+  align-items:center;
+  gap:.38rem;
+  padding:.3rem .55rem;
+  border:1px solid var(--ui-line);
+  border-radius:999px;
+  background:var(--ui-surface-soft);
+  color:var(--ui-muted);
+  font-size:.74rem;
+  font-weight:700;
+}
+.portal-inline-status::before {
+  content:"";
+  width:.42rem;
+  height:.42rem;
+  border-radius:999px;
+  background:#16a34a;
+}
+
+/* Consistent interactive focus treatment. */
+#app :where(a,button,input,select,textarea):focus-visible,
+#sidebar :where(a,button):focus-visible,
+.global-search-dialog :where(a,button,input):focus-visible {
+  outline:3px solid color-mix(in srgb,var(--ui-link) 40%,transparent) !important;
+  outline-offset:2px !important;
+}
+
+/* Normalize native disabled states without losing text contrast. */
+#app :where(button,input,select,textarea):disabled {
+  opacity:.62;
+  cursor:not-allowed;
+}
+
+/* Reduced-motion remains first-class. */
+@media (prefers-reduced-motion:reduce) {
+  .portal-action,
+  .portal-card-tool { transition:none !important; transform:none !important; }
+}
+
+@media (max-width:900px) {
+  .portal-home-summary { grid-template-columns:repeat(2,minmax(0,1fr)); }
+}
+@media (max-width:520px) {
+  .portal-home-summary { grid-template-columns:1fr 1fr; gap:.65rem; }
+  .portal-metric { padding:.85rem; }
+  .portal-metric strong { font-size:1.3rem; }
+  .portal-home-actions { display:grid; grid-template-columns:1fr; }
+  .portal-action { width:100%; }
+}
