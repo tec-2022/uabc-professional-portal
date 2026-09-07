@@ -1,0 +1,399 @@
+/* Academic Professional Portal — authoritative theme and typography system.
+ * Loaded last in production so semantic tokens win over legacy utility layers.
+ */
+:root {
+  color-scheme: light;
+  --ui-canvas:#f7f9f8;
+  --ui-canvas-alt:#eef4f1;
+  --ui-surface:#ffffff;
+  --ui-surface-soft:#f2f6f4;
+  --ui-surface-elevated:#ffffff;
+  --ui-heading:#132033;
+  --ui-text:#334155;
+  --ui-muted:#5c6978;
+  --ui-subtle:#64748b;
+  --ui-link:#0b6b3a;
+  --ui-link-hover:#084d30;
+  --ui-line:#dbe5e0;
+  --ui-line-strong:#c8d7d0;
+  --ui-green:#083d2b;
+  --ui-green-2:#0b6b3a;
+  --ui-gold:#c9a227;
+  --ui-gold-readable:#8a6d12;
+  --ui-shadow:0 16px 38px -30px rgba(15,23,42,.5);
+  --ui-radius:14px;
+}
+
+html.dark {
+  color-scheme: dark;
+  --ui-canvas:#0b1220;
+  --ui-canvas-alt:#0f172a;
+  --ui-surface:#111827;
+  --ui-surface-soft:#162131;
+  --ui-surface-elevated:#1b2737;
+  --ui-heading:#f8fafc;
+  --ui-text:#dbe5ee;
+  --ui-muted:#aebdca;
+  --ui-subtle:#94a3b8;
+  --ui-link:#8ed2b5;
+  --ui-link-hover:#b7e7d2;
+  --ui-line:#2d3a4c;
+  --ui-line-strong:#3c4c60;
+  --ui-gold-readable:#f3d56a;
+  --ui-shadow:0 18px 45px -30px rgba(0,0,0,.76);
+}
+
+html, body {
+  background:var(--ui-canvas) !important;
+  color:var(--ui-text) !important;
+}
+
+body {
+  font-family:Inter,ui-sans-serif,system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;
+  font-size:1rem;
+  line-height:1.6;
+  text-rendering:optimizeLegibility;
+  -webkit-font-smoothing:antialiased;
+}
+
+/* The legacy layer forced main to white with !important. This rule is authoritative. */
+body > div.grid.min-h-screen > main,
+main {
+  background:linear-gradient(145deg,var(--ui-surface) 0%,var(--ui-canvas) 100%) !important;
+  color:var(--ui-text) !important;
+}
+html.dark body > div.grid.min-h-screen > main,
+html.dark main {
+  background:linear-gradient(145deg,#0f172a 0%,#0b1220 100%) !important;
+  color:var(--ui-text) !important;
+}
+
+#app {
+  color:var(--ui-text);
+  font-size:1rem;
+  line-height:1.65;
+}
+
+/* ------------------------- Typography ------------------------- */
+#app .portal-profile-name {
+  margin:.1rem 0 0 !important;
+  color:var(--ui-heading) !important;
+  font-size:clamp(2rem,3vw,2.35rem) !important;
+  font-weight:700 !important;
+  line-height:1.12 !important;
+  letter-spacing:-.035em !important;
+  text-align:left !important;
+}
+
+#app .portal-page-title {
+  position:relative;
+  margin:0 0 1.6rem !important;
+  padding:0 0 .78rem !important;
+  color:var(--ui-heading) !important;
+  font-size:clamp(1.85rem,2.6vw,2.15rem) !important;
+  font-weight:700 !important;
+  line-height:1.15 !important;
+  letter-spacing:-.03em !important;
+  text-align:left !important;
+}
+#app .portal-page-title::after {
+  content:"";
+  position:absolute;
+  left:0;
+  bottom:0;
+  width:3rem;
+  height:3px;
+  border-radius:999px;
+  background:linear-gradient(90deg,var(--ui-gold),#e4c64f);
+}
+
+#app .portal-page-intro {
+  max-width:72ch !important;
+  margin-top:-.55rem !important;
+  margin-bottom:1.75rem !important;
+  color:var(--ui-text) !important;
+  font-size:.985rem !important;
+  line-height:1.72 !important;
+  text-align:left !important;
+}
+
+#app .portal-section-heading {
+  margin-top:0 !important;
+  color:var(--ui-heading) !important;
+  font-size:clamp(1.28rem,1.8vw,1.5rem) !important;
+  font-weight:700 !important;
+  line-height:1.25 !important;
+  letter-spacing:-.018em !important;
+  text-align:left !important;
+}
+
+#app .portal-card-title {
+  color:var(--ui-heading) !important;
+  font-size:1rem !important;
+  font-weight:700 !important;
+  line-height:1.35 !important;
+  letter-spacing:-.01em !important;
+  text-align:left !important;
+}
+
+#app h1,
+#app h2,
+#app h3,
+#app h4,
+#app h5,
+#app h6,
+#app strong,
+#app dt {
+  color:var(--ui-heading) !important;
+}
+#app h2:not(.portal-profile-name):not(.portal-page-title) {
+  font-size:1.55rem !important;
+  line-height:1.22 !important;
+  font-weight:700 !important;
+  letter-spacing:-.02em;
+}
+#app h3:not(.portal-section-heading):not(.portal-card-title) {
+  font-size:1.2rem !important;
+  line-height:1.3 !important;
+  font-weight:700 !important;
+}
+#app h4:not(.portal-card-title) {
+  font-size:1.02rem !important;
+  line-height:1.35 !important;
+  font-weight:700 !important;
+}
+
+#app p,
+#app li,
+#app dd,
+#app td,
+#app label {
+  color:var(--ui-text) !important;
+}
+#app p,
+#app li,
+#app dd {
+  line-height:1.65;
+}
+
+/* Normalize legacy Tailwind text utilities by semantic intent. */
+#app [class~="text-slate-900"],
+#app [class~="text-slate-800"] { color:var(--ui-heading) !important; }
+#app [class~="text-slate-700"],
+#app [class~="text-slate-600"] { color:var(--ui-text) !important; }
+#app [class~="text-slate-500"],
+#app [class~="text-slate-400"] { color:var(--ui-muted) !important; }
+#app [class~="text-primary-800"] { color:var(--ui-heading) !important; }
+
+#app .text-xs { font-size:.78rem !important; line-height:1.45 !important; }
+#app .text-sm { font-size:.875rem !important; line-height:1.5 !important; }
+#app .portal-meta,
+#pubsCount { color:var(--ui-muted) !important; font-size:.875rem !important; }
+
+#app a:not(.social-icon):not([class*="bg-"]) {
+  color:var(--ui-link);
+  text-decoration-thickness:.06em;
+  text-underline-offset:.17em;
+}
+#app a:not(.social-icon):not([class*="bg-"]):hover { color:var(--ui-link-hover); }
+
+/* ------------------------- Surfaces ------------------------- */
+#positionsList > *,
+#educationList > *,
+#upcomingEvents > *,
+#pastEvents > *,
+#pubsContainer > *,
+#projectsGrid > *,
+#episodesGrid > *,
+#postsList > *,
+#latestPost > *,
+#contactCards > *,
+#moreSections .timeline-card,
+#app .portal-card {
+  background:var(--ui-surface) !important;
+  border-color:var(--ui-line) !important;
+  color:var(--ui-text) !important;
+  box-shadow:var(--ui-shadow) !important;
+}
+
+#app [class~="bg-white"] { background-color:var(--ui-surface) !important; }
+#app [class~="bg-slate-50"] { background-color:var(--ui-surface-soft) !important; }
+html.dark #app [class~="bg-slate-800"],
+html.dark #app [class~="dark:bg-slate-800"],
+html.dark #app [class~="dark:bg-slate-900"] { background-color:var(--ui-surface) !important; }
+html.dark #app [class~="bg-slate-900"],
+html.dark #app [class~="dark:bg-slate-950"] { background-color:var(--ui-canvas-alt) !important; }
+
+#app [class~="border-slate-100"],
+#app [class~="border-slate-200"],
+#app [class~="border-slate-300"],
+#app [class~="border-slate-700"] { border-color:var(--ui-line) !important; }
+
+/* ------------------------- Forms ------------------------- */
+#app input,
+#app select,
+#app textarea,
+.search-input {
+  background:var(--ui-surface) !important;
+  color:var(--ui-heading) !important;
+  border-color:var(--ui-line-strong) !important;
+  min-height:2.75rem;
+}
+#app input::placeholder,
+#app textarea::placeholder,
+.search-input::placeholder { color:var(--ui-subtle) !important; opacity:1; }
+#app input:focus,
+#app select:focus,
+#app textarea:focus,
+.search-input:focus {
+  border-color:#4c9478 !important;
+  box-shadow:0 0 0 3px rgba(76,148,120,.18) !important;
+  outline:none !important;
+}
+html.dark #app input,
+html.dark #app select,
+html.dark #app textarea,
+html.dark .search-input {
+  background:var(--ui-surface-elevated) !important;
+  color:var(--ui-heading) !important;
+  border-color:var(--ui-line-strong) !important;
+}
+html.dark #app select option { background:var(--ui-surface); color:var(--ui-heading); }
+
+/* ------------------------- Global search ------------------------- */
+.global-search-dialog { color:var(--ui-text); }
+.search-panel {
+  background:var(--ui-surface) !important;
+  color:var(--ui-text) !important;
+  border:1px solid var(--ui-line) !important;
+}
+.search-head label { color:var(--ui-heading) !important; }
+.search-close {
+  background:var(--ui-surface-soft) !important;
+  color:var(--ui-heading) !important;
+  border-color:var(--ui-line) !important;
+}
+.search-results { border-color:var(--ui-line) !important; }
+.search-result { border-color:var(--ui-line) !important; color:var(--ui-text) !important; }
+.search-result:hover { background:var(--ui-surface-soft) !important; }
+.search-result strong { color:var(--ui-heading) !important; }
+.search-result > span:last-child,
+.search-help,
+.search-empty { color:var(--ui-muted) !important; }
+.search-section {
+  background:color-mix(in srgb,var(--ui-link) 12%,transparent) !important;
+  color:var(--ui-link) !important;
+}
+html.dark .global-search-dialog::backdrop { background:rgba(2,6,23,.72); }
+
+/* ------------------------- Floating panels ------------------------- */
+#cookieBanner,
+#socialPanel {
+  background:var(--ui-surface) !important;
+  border-color:var(--ui-line) !important;
+  color:var(--ui-text) !important;
+}
+#cookieBanner h3,
+#socialPanel h4 { color:var(--ui-heading) !important; }
+#cookieBanner p,
+#socialPanel p,
+#socialPanel span:not([class*="text-"]) { color:var(--ui-muted); }
+html.dark #socialPanel [class*="from-blue-"],
+html.dark #socialPanel [class*="from-slate-"],
+html.dark #socialPanel [class*="from-green-"],
+html.dark #socialPanel [class*="from-purple-"],
+html.dark #socialPanel [class*="from-teal-"] {
+  background:var(--ui-surface-elevated) !important;
+}
+
+/* ------------------------- Calendar ------------------------- */
+.fc {
+  --fc-page-bg-color:var(--ui-surface);
+  --fc-neutral-bg-color:var(--ui-surface-soft);
+  --fc-neutral-text-color:var(--ui-muted);
+  --fc-border-color:var(--ui-line);
+  color:var(--ui-text) !important;
+}
+.fc .fc-toolbar-title { color:var(--ui-heading) !important; font-weight:700; }
+.fc .fc-col-header-cell-cushion,
+.fc .fc-daygrid-day-number { color:var(--ui-text) !important; }
+.fc .fc-button {
+  border-color:var(--ui-line-strong) !important;
+  background:var(--ui-surface-elevated) !important;
+  color:var(--ui-heading) !important;
+}
+.fc .fc-button-primary:not(:disabled).fc-button-active,
+.fc .fc-button-primary:not(:disabled):active {
+  background:var(--ui-green-2) !important;
+  border-color:var(--ui-green-2) !important;
+  color:#fff !important;
+}
+
+/* ------------------------- Sidebar ------------------------- */
+#sidebar { background:#083d2b !important; color:#fff !important; }
+#sidebar h1 { color:#fff !important; }
+#sidebar [data-i18n="role"] { color:#f0cf58 !important; font-weight:600 !important; }
+#sidebar [data-i18n="university"] { color:#d8e5df !important; }
+#sidebar .menu-link { color:#f8faf9 !important; }
+#sidebar .menu-link svg,
+#sidebar .menu-link i { color:#efca43 !important; }
+#sidebar .active-menu-item {
+  background:linear-gradient(90deg,rgba(201,162,39,.22),rgba(201,162,39,.10)) !important;
+  box-shadow:inset 3px 0 0 #e1be38 !important;
+}
+#sidebar .text-white\/50,
+#sidebar .text-white\/70 { color:#c8d8d0 !important; }
+
+/* Home keeps its original profile composition, but with semantic colors. */
+#app > section > header:first-child p {
+  color:var(--ui-text) !important;
+  line-height:1.7 !important;
+}
+#app > section > header:first-child hr { border-color:var(--ui-line) !important; }
+
+/* ------------------------- Demo and generated detail pages ------------------------- */
+.template-demo-notice {
+  background:color-mix(in srgb,var(--ui-surface) 95%,transparent) !important;
+  color:var(--ui-text) !important;
+  border-color:var(--ui-line) !important;
+}
+.detail-page {
+  min-height:100vh;
+  background:linear-gradient(145deg,var(--ui-canvas),var(--ui-canvas-alt)) !important;
+  color:var(--ui-text) !important;
+}
+.detail-title { color:var(--ui-heading) !important; line-height:1.12; }
+.detail-summary { color:var(--ui-text) !important; line-height:1.7; }
+.detail-card { background:var(--ui-surface) !important; border-color:var(--ui-line) !important; }
+.detail-grid dt { color:var(--ui-muted) !important; }
+.detail-grid dd { color:var(--ui-heading) !important; }
+.detail-back { color:var(--ui-link) !important; }
+.detail-placeholder { background:var(--ui-surface-soft) !important; border-color:var(--ui-line-strong) !important; color:var(--ui-muted) !important; }
+
+/* ------------------------- Mobile ------------------------- */
+@media (max-width:767px) {
+  #app { font-size:.975rem; line-height:1.62; }
+  #app .portal-profile-name {
+    font-size:clamp(1.8rem,8vw,2.15rem) !important;
+    text-align:center !important;
+  }
+  #app .portal-page-title {
+    font-size:clamp(1.7rem,7vw,1.95rem) !important;
+    margin-bottom:1.35rem !important;
+  }
+  #app .portal-page-intro {
+    margin-top:-.35rem !important;
+    font-size:.95rem !important;
+    line-height:1.65 !important;
+  }
+  #app .portal-section-heading { font-size:1.28rem !important; }
+}
+
+@media (prefers-reduced-motion:reduce) {
+  *,*::before,*::after {
+    scroll-behavior:auto !important;
+    animation-duration:.01ms !important;
+    animation-iteration-count:1 !important;
+    transition-duration:.01ms !important;
+  }
+}
