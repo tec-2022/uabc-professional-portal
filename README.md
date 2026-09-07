@@ -1,33 +1,21 @@
 # Portal Profesional UABC
 
-Proyecto estático generado automáticamente a partir del archivo `index.html`.
+Sitio web estático tipo portal académico/profesional, publicado como práctica de interfaz, navegación y organización de contenido institucional.
 
-## Estructura
-- `index.html`
-  - HTML principal de la SPA (sidebar, templates de cada sección, etc.).
-  - Ya NO contiene el bloque gigante `<style>` ni el gran `<script>` inline.
+## ✨ Lo que demuestra este proyecto
+- Maquetación HTML para una experiencia tipo SPA con navegación lateral.
+- Separación de estilos y lógica en archivos dedicados dentro de `assets/`.
+- Interacciones de interfaz como modo oscuro, selector de idioma, galería, calendario, banner de cookies y reproductor flotante.
+- Publicación de un sitio estático en Vercel.
 
-- `assets/css/styles.css`
-  - Todo el CSS que estaba dentro de `<style> ... </style>` en el `<head>`.
+## 🧱 Estructura
+- `index.html`: HTML principal de la SPA.
+- `assets/css/styles.css`: estilos principales del sitio.
+- `assets/js/tailwind-config.js`: configuración visual usada por Tailwind CDN.
+- `assets/js/app.js`: lógica de navegación, vistas e interacciones.
 
-- `assets/js/tailwind-config.js`
-  - Configuración Tailwind (colores UABC personalizados, dark mode, etc.).
+## 🚀 Demo
+El sitio está publicado en: https://prueba-pi-eight.vercel.app
 
-- `assets/js/app.js`
-  - Toda la lógica JS de la app:
-    - Router y render dinámico de vistas `#/home`, `#/publicaciones`, etc.
-    - Calendario (FullCalendar).
-    - Lightbox de la galería.
-    - Modo oscuro / selector de idioma.
-    - Banner de cookies.
-    - Reproductor de podcast flotante.
-    - Sidebar responsive, etc.
-
-## Cómo subirlo a GitHub
-1. Sube TODO el contenido de esta carpeta a un repo nuevo.
-2. Haz commit y push.
-3. (Opcional) Activa GitHub Pages apuntando a la rama principal.
-
-## Nota sobre Tailwind CDN
-Tailwind sigue usándose vía CDN. En producción real es recomendable compilar Tailwind de forma local (CLI/PostCSS),
-pero esto ya funciona como sitio estático listo para publicar.
+## Nota técnica
+Tailwind se usa vía CDN. Para un proyecto de producción conviene compilar Tailwind de forma local con CLI/PostCSS, pero esta versión funciona como sitio estático listo para publicar.
