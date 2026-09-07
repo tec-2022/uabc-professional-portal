@@ -1,6 +1,6 @@
-# Portal Profesional UABC
+# UABC Professional Portal · Versión Base
 
-Sitio web estático tipo portal académico/profesional, publicado como práctica de interfaz, navegación y organización de contenido institucional.
+Sitio web estático tipo portal académico/profesional, publicado como práctica base de interfaz, navegación y organización de contenido institucional.
 
 ## ✨ Lo que demuestra este proyecto
 - Maquetación HTML para una experiencia tipo SPA con navegación lateral.
@@ -16,6 +16,9 @@ Sitio web estático tipo portal académico/profesional, publicado como práctica
 
 ## 🚀 Demo
 El sitio está publicado en: https://prueba-pi-eight.vercel.app
+
+## Estado del proyecto
+Esta es una versión base. El siguiente paso natural sería convertirlo en una versión más profesional con build local, assets optimizados y una identidad visual más consistente.
 
 ## Nota técnica
 Tailwind se usa vía CDN. Para un proyecto de producción conviene compilar Tailwind de forma local con CLI/PostCSS, pero esta versión funciona como sitio estático listo para publicar.
