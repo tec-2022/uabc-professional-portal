@@ -1,7 +1,7 @@
 {
   "template": {
     "name": "Academic Professional Portal",
-    "version": "2.2.0",
+    "version": "3.0.0",
     "mode": "demo",
     "sampleData": true,
     "adminPublishing": false
@@ -12,7 +12,29 @@
     "shortTitle": "Academic Portal Demo",
     "description": "Plantilla profesional para portales académicos con perfil, publicaciones, investigación, docencia, eventos, blog, galería y podcast.",
     "language": "es-MX",
+    "defaultTheme": "light",
     "themeColor": "#083321"
+  },
+  "branding": {
+    "profile": {
+      "name": {
+        "es": "Dr. Eduardo Ahumada-Tello",
+        "en": "Dr. Eduardo Ahumada-Tello"
+      },
+      "role": {
+        "es": "Profesor Investigador",
+        "en": "Professor-Researcher"
+      },
+      "institution": {
+        "es": "Universidad Autónoma de Baja California",
+        "en": "Autonomous University of Baja California"
+      }
+    },
+    "colors": {
+      "primary": "#083d2b",
+      "primaryAction": "#0b6b3a",
+      "accent": "#c9a227"
+    }
   },
   "demo": {
     "label": "Demo · Datos de ejemplo",
@@ -22,12 +44,27 @@
   },
   "features": {
     "search": true,
-    "pwa": true,
+    "pwa": false,
     "rss": true,
     "details": true,
-    "adminStudio": true,
     "adminPanel": true,
     "friendlyAdmin": true,
-    "showcasePolish": true
+    "darkMode": true,
+    "bilingual": true,
+    "homeMetrics": true,
+    "emptyStates": true,
+    "copyCitation": true,
+    "visualSmoke": true,
+    "accessibilityChecks": true
+  },
+  "sections": {
+    "eventos": true,
+    "publicaciones": true,
+    "investigacion": true,
+    "docencia": true,
+    "blog": true,
+    "galeria": true,
+    "podcast": true,
+    "contacto": true
   }
 }
