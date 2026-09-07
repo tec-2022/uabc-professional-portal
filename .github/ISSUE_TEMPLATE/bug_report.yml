@@ -1,0 +1,51 @@
+name: Reportar un problema
+description: Informa un fallo reproducible en el portal, build o panel de administración.
+title: "[Bug]: "
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Gracias por ayudar a mejorar Academic Professional Portal. Incluye pasos claros y evita compartir datos sensibles.
+  - type: dropdown
+    id: area
+    attributes:
+      label: Área afectada
+      options:
+        - Portal público
+        - Navegación
+        - Responsive / diseño
+        - Panel de administración
+        - Build / CI
+        - PWA / caché
+        - SEO / rutas
+        - Otro
+    validations:
+      required: true
+  - type: textarea
+    id: problem
+    attributes:
+      label: Qué ocurrió
+      description: Describe el comportamiento observado y qué esperabas que ocurriera.
+      placeholder: Al abrir..., esperaba..., pero ocurrió...
+    validations:
+      required: true
+  - type: textarea
+    id: steps
+    attributes:
+      label: Pasos para reproducir
+      placeholder: |
+        1. Abrir...
+        2. Hacer clic en...
+        3. Observar...
+    validations:
+      required: true
+  - type: input
+    id: environment
+    attributes:
+      label: Navegador / dispositivo
+      placeholder: Edge 152, Windows 11 / Safari, iPhone...
+  - type: textarea
+    id: evidence
+    attributes:
+      label: Evidencia adicional
+      description: Capturas, mensajes de consola o contexto que ayuden a reproducirlo.

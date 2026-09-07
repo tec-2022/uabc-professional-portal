@@ -1,7 +1,7 @@
 {
   "template": {
     "name": "Academic Professional Portal",
-    "version": "2.1.0",
+    "version": "2.2.0",
     "mode": "demo",
     "sampleData": true,
     "adminPublishing": false
@@ -17,13 +17,17 @@
   "demo": {
     "label": "Demo · Datos de ejemplo",
     "notice": "El contenido mostrado es demostrativo y sirve para ilustrar la plantilla. No representa un sitio institucional oficial.",
-    "showNotice": true
+    "showNotice": true,
+    "protectPlaceholderLinks": true
   },
   "features": {
     "search": true,
     "pwa": true,
     "rss": true,
     "details": true,
-    "adminStudio": true
+    "adminStudio": true,
+    "adminPanel": true,
+    "friendlyAdmin": true,
+    "showcasePolish": true
   }
 }

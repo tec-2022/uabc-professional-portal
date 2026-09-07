@@ -3,7 +3,8 @@ import { execFileSync } from 'node:child_process';
 
 const mustExist = [
   'dist/index.html','dist/admin/index.html','dist/assets/css/tailwind.css','dist/assets/css/template-demo.css',
-  'dist/assets/css/presentation-refinement.css','dist/admin/admin-friendly.css','dist/admin/admin-friendly.js',
+  'dist/assets/css/presentation-refinement.css','dist/assets/css/showcase.css','dist/assets/js/showcase.js',
+  'dist/admin/admin-friendly.css','dist/admin/admin-friendly.js','dist/admin/admin-pro.css','dist/admin/admin-pro.js',
   'dist/assets/data/content.js','dist/assets/data/content.json','dist/assets/data/search-index.json',
   'dist/manifest.webmanifest','dist/service-worker.js','dist/sitemap.xml','dist/feed.xml','dist/offline.html',
   'dist/template-info.json'
@@ -17,8 +18,8 @@ for (const file of mustExist) {
 }
 
 for (const file of [
-  'dist/assets/js/app.js','dist/assets/js/enhancements.js','dist/service-worker.js',
-  'dist/admin/admin.js','dist/admin/dashboard.js','dist/admin/admin-friendly.js'
+  'dist/assets/js/app.js','dist/assets/js/enhancements.js','dist/assets/js/showcase.js','dist/service-worker.js',
+  'dist/admin/admin.js','dist/admin/dashboard.js','dist/admin/admin-friendly.js','dist/admin/admin-pro.js'
 ]) {
   try {
     execFileSync(process.execPath, ['--check', file], { stdio:'pipe' });
@@ -32,10 +33,13 @@ for (const file of [
 const index = await readFile('dist/index.html','utf8');
 const app = await readFile('dist/assets/js/app.js','utf8');
 const enhancements = await readFile('dist/assets/js/enhancements.js','utf8');
+const showcase = await readFile('dist/assets/js/showcase.js','utf8');
 const content = await readFile('dist/assets/data/content.js','utf8');
 const admin = await readFile('dist/admin/index.html','utf8');
 const adminFriendly = await readFile('dist/admin/admin-friendly.js','utf8');
+const adminPro = await readFile('dist/admin/admin-pro.js','utf8');
 const presentationCss = await readFile('dist/assets/css/presentation-refinement.css','utf8');
+const showcaseCss = await readFile('dist/assets/css/showcase.css','utf8');
 const manifest = await readFile('dist/manifest.webmanifest','utf8');
 const serviceWorker = await readFile('dist/service-worker.js','utf8');
 const vercel = await readFile('vercel.json','utf8');
@@ -61,12 +65,22 @@ if (!index.includes('/assets/css/presentation-refinement.css') || !presentationC
   pass('Composición original y contraste refinado activos');
 }
 
+if (!index.includes('/assets/css/showcase.css') || !index.includes('/assets/js/showcase.js')) {
+  fail('La capa showcase profesional no está enlazada en producción');
+} else if (!showcase.includes('Enlace de ejemplo') || !showcaseCss.includes('.portal-demo-toast')) {
+  fail('La demo no protege correctamente enlaces placeholder');
+} else {
+  pass('Showcase profesional y enlaces demo protegidos');
+}
+
 if (/Importar JSON|Exportar JSON|Admin Studio|Modo preparación|Sin migración/i.test(admin)) {
   fail('El admin todavía expone terminología técnica al usuario');
 } else if (!admin.includes('Panel de administración') || !adminFriendly.includes('sectionHelp')) {
   fail('Falta la capa de administración amigable');
+} else if (!admin.includes('/admin/admin-pro.css') || !admin.includes('/admin/admin-pro.js') || !adminPro.includes('field-media-preview')) {
+  fail('Falta la capa profesional del panel de administración');
 } else {
-  pass('Admin usa lenguaje claro y oculta detalles técnicos');
+  pass('Admin usa lenguaje claro y presentación product-grade');
 }
 
 if (!app.includes('CLEAN_ROUTE_PATHS') || !app.includes('history.pushState') || !app.includes("window.addEventListener('popstate', render)")) {

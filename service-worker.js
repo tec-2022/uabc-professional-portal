@@ -1,8 +1,9 @@
-const CACHE = 'uabc-portal-v6-router-fixed-20260907';
+const CACHE = 'uabc-portal-v7-showcase-20260907';
 const CORE = [
   '/', '/offline.html', '/manifest.webmanifest',
   '/assets/css/tailwind.css', '/assets/css/styles.css', '/assets/css/layout-fixes.css', '/assets/css/enhancements.css',
-  '/assets/js/app.js', '/assets/js/enhancements.js',
+  '/assets/css/template-demo.css', '/assets/css/presentation-refinement.css', '/assets/css/showcase.css',
+  '/assets/js/app.js', '/assets/js/enhancements.js', '/assets/js/showcase.js',
   '/assets/data/content.js', '/assets/data/search-index.json'
 ];
 

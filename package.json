@@ -1,10 +1,10 @@
 {
   "name": "academic-professional-portal-template",
-  "version": "2.1.0",
+  "version": "2.2.0",
   "private": true,
-  "description": "Professional reusable academic portal template with sample data, static build, PWA, SEO and prepared Admin Studio.",
+  "description": "Professional reusable academic portal template with sample data, static build, PWA, SEO and a human-friendly administration panel.",
   "scripts": {
-    "build": "node scripts/build.mjs && node scripts/routerize.mjs && tailwindcss -c tailwind.config.cjs -i assets/css/tailwind-input.css -o dist/assets/css/tailwind.css --minify && node scripts/professionalize.mjs && node scripts/scroll-polish.mjs && node scripts/ui-refinement.mjs",
+    "build": "node scripts/build.mjs && node scripts/routerize.mjs && tailwindcss -c tailwind.config.cjs -i assets/css/tailwind-input.css -o dist/assets/css/tailwind.css --minify && node scripts/professionalize.mjs && node scripts/scroll-polish.mjs && node scripts/ui-refinement.mjs && node scripts/showcase.mjs",
     "audit": "node scripts/audit.mjs",
     "check": "npm run build && npm run audit"
   },

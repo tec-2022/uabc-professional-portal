@@ -1,0 +1,217 @@
+/* Academic Professional Portal — portfolio-grade showcase layer */
+:root {
+  --showcase-ink:#0f172a;
+  --showcase-muted:#536273;
+  --showcase-line:#dfe7e3;
+  --showcase-surface:#ffffff;
+  --showcase-soft:#f4f7f5;
+  --showcase-green:#083d2b;
+  --showcase-green-2:#0b5c40;
+  --showcase-gold:#c9a227;
+  --showcase-radius:14px;
+  --showcase-shadow:0 14px 36px -28px rgba(15,23,42,.5);
+}
+
+::selection { background:rgba(201,162,39,.24); color:var(--showcase-ink); }
+
+/* Give every routed section a deliberate, calm entrance without changing geometry. */
+#app > section.portal-enter { animation:portalSectionIn .28s ease-out both; }
+@keyframes portalSectionIn {
+  from { opacity:.72; transform:translateY(5px); }
+  to { opacity:1; transform:none; }
+}
+
+/* Section titles share one editorial language. */
+#app .portal-section-title {
+  position:relative;
+  padding-bottom:.8rem;
+  margin-bottom:1.55rem !important;
+}
+#app .portal-section-title::after {
+  content:"";
+  position:absolute;
+  left:0;
+  bottom:0;
+  width:3rem;
+  height:3px;
+  border-radius:999px;
+  background:linear-gradient(90deg,var(--showcase-gold),#e4c64f);
+}
+
+/* Normalize cards produced by the different legacy renderers. */
+#pubsContainer > *,
+#projectsGrid > *,
+#episodesGrid > *,
+#postsList > *,
+#latestPost > *,
+#contactCards > *,
+#upcomingEvents > *,
+#pastEvents > *,
+#positionsList > *,
+#educationList > *,
+#moreSections .timeline-card,
+.portal-card {
+  border-color:var(--showcase-line) !important;
+  border-radius:var(--showcase-radius) !important;
+  box-shadow:var(--showcase-shadow) !important;
+}
+
+#pubsContainer > *,
+#projectsGrid > *,
+#episodesGrid > *,
+#postsList > *,
+#latestPost > *,
+#contactCards > * {
+  transition:border-color .18s ease, box-shadow .18s ease, transform .18s ease;
+}
+@media (hover:hover) {
+  #pubsContainer > *:hover,
+  #projectsGrid > *:hover,
+  #episodesGrid > *:hover,
+  #postsList > *:hover,
+  #latestPost > *:hover,
+  #contactCards > *:hover {
+    border-color:#c9d8d1 !important;
+    box-shadow:0 18px 40px -30px rgba(8,61,43,.5) !important;
+    transform:translateY(-1px);
+  }
+}
+
+/* Inputs feel like a finished product across publications/contact/search. */
+#app input,
+#app select,
+#app textarea,
+.search-input {
+  min-height:2.75rem;
+  border-color:#ced8d3 !important;
+  background-color:rgba(255,255,255,.96) !important;
+  color:var(--showcase-ink) !important;
+  transition:border-color .15s ease, box-shadow .15s ease, background-color .15s ease;
+}
+#app textarea { min-height:7rem; }
+#app input:focus,
+#app select:focus,
+#app textarea:focus,
+.search-input:focus {
+  border-color:#3d8068 !important;
+  box-shadow:0 0 0 3px rgba(11,107,58,.12) !important;
+  outline:none !important;
+}
+
+/* Clearer chips and metadata. */
+#app [class*="rounded-full"],
+#app .badge,
+#app .tag {
+  font-variant-numeric:tabular-nums;
+}
+#pubsCount { font-variant-numeric:tabular-nums; }
+
+/* Placeholder links remain demonstrable without behaving like broken links. */
+a[data-demo-link="true"] {
+  cursor:help !important;
+  text-decoration-style:dotted !important;
+}
+.portal-demo-toast {
+  position:fixed;
+  right:max(1rem,env(safe-area-inset-right));
+  bottom:max(1rem,env(safe-area-inset-bottom));
+  z-index:120;
+  width:min(24rem,calc(100vw - 2rem));
+  padding:.85rem 1rem;
+  border:1px solid rgba(255,255,255,.18);
+  border-radius:.85rem;
+  background:rgba(8,51,33,.97);
+  color:#fff;
+  box-shadow:0 22px 55px rgba(15,23,42,.28);
+  font-size:.88rem;
+  line-height:1.45;
+  opacity:0;
+  transform:translateY(8px);
+  pointer-events:none;
+  transition:opacity .18s ease,transform .18s ease;
+}
+.portal-demo-toast.show { opacity:1; transform:none; }
+.portal-demo-toast strong { display:block; color:#f5d86c; margin-bottom:.15rem; }
+
+/* Demo marker is intentional and discreet, not a developer watermark. */
+.template-demo-notice {
+  border:1px solid rgba(8,61,43,.14) !important;
+  background:rgba(255,255,255,.94) !important;
+  color:#334155 !important;
+  box-shadow:0 10px 28px rgba(15,23,42,.10) !important;
+  backdrop-filter:blur(12px);
+}
+.template-demo-notice strong {
+  background:var(--showcase-green) !important;
+  color:#fff !important;
+}
+
+/* Detail pages generated during build now match the main product. */
+.detail-page { background:linear-gradient(145deg,#f8faf9,#eef4f1); }
+.detail-shell { width:min(900px,calc(100% - 2rem)); }
+.detail-back {
+  gap:.4rem;
+  text-decoration:none;
+  color:var(--showcase-green-2);
+}
+.detail-back:hover { text-decoration:underline; text-underline-offset:.2em; }
+.detail-kicker { color:#8b7017; }
+.detail-title { letter-spacing:-.035em; }
+.detail-card {
+  border-color:var(--showcase-line);
+  border-radius:1rem;
+  box-shadow:0 18px 45px -34px rgba(15,23,42,.55);
+}
+.detail-grid dt { color:#475569; }
+.detail-grid dd { color:#172235; }
+.detail-demo-badge {
+  display:inline-flex;
+  align-items:center;
+  margin-left:.55rem;
+  padding:.18rem .48rem;
+  border-radius:999px;
+  background:#edf5f1;
+  color:#0a5f35;
+  font-size:.68rem;
+  font-weight:800;
+  letter-spacing:.04em;
+  text-transform:uppercase;
+}
+
+/* Sidebar legal copy looks deliberate instead of legacy footer text. */
+#sidebar [data-portal-copyright] {
+  color:#c8d8d0 !important;
+  letter-spacing:.01em;
+}
+
+.dark .template-demo-notice {
+  background:rgba(15,23,42,.94) !important;
+  border-color:#334155 !important;
+  color:#d5dde7 !important;
+}
+.dark #app input,
+.dark #app select,
+.dark #app textarea {
+  background-color:#111827 !important;
+  border-color:#3b4b5f !important;
+  color:#f8fafc !important;
+}
+.dark .detail-page { background:#0f172a; }
+.dark .detail-card { background:#1e293b; border-color:#334155; }
+.dark .detail-grid dd { color:#e2e8f0; }
+
+@media (max-width:767px) {
+  .template-demo-notice {
+    left:auto !important;
+    right:max(.75rem,env(safe-area-inset-right)) !important;
+    top:4.4rem !important;
+    bottom:auto !important;
+  }
+  .portal-demo-toast { bottom:5rem; }
+  #app .portal-section-title { padding-bottom:.65rem; }
+}
+
+@media (prefers-reduced-motion:reduce) {
+  #app > section.portal-enter { animation:none !important; }
+  #pubsContainer > *,#projectsGrid > *,#episodesGrid > *,#postsList > *,#latestPost > *,#contactCards > * { transform:none !important; }
+}

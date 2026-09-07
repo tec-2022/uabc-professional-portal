@@ -1,0 +1,40 @@
+name: Proponer una mejora
+description: Sugiere una mejora de producto, experiencia o arquitectura.
+title: "[Mejora]: "
+body:
+  - type: textarea
+    id: need
+    attributes:
+      label: Necesidad
+      description: Explica qué problema o limitación resolvería la mejora.
+      placeholder: Como usuario/administrador necesito...
+    validations:
+      required: true
+  - type: textarea
+    id: proposal
+    attributes:
+      label: Propuesta
+      description: Describe el resultado esperado sin asumir una implementación concreta.
+    validations:
+      required: true
+  - type: dropdown
+    id: scope
+    attributes:
+      label: Alcance
+      options:
+        - Demo / presentación
+        - Portal público
+        - Panel de administración
+        - Accesibilidad
+        - SEO / contenido
+        - Build / CI
+        - Backend futuro
+        - Documentación
+        - Otro
+    validations:
+      required: true
+  - type: textarea
+    id: notes
+    attributes:
+      label: Notas o referencias
+      description: Añade ejemplos, referencias visuales o restricciones relevantes.

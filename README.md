@@ -2,53 +2,72 @@
 
 ![Quality Gate](https://github.com/tec-2022/uabc-professional-portal/actions/workflows/quality.yml/badge.svg)
 
-**Plantilla profesional y reutilizable para portales académicos y de investigación.** Incluye perfil, publicaciones, investigación, docencia, eventos, blog, galería, podcast, búsqueda global, PWA y un Admin Studio preparado para una futura capa de persistencia.
+**Plantilla profesional y reutilizable para portales académicos, docentes y de investigación.** Está pensada para verse como un producto terminado desde el primer clone, aunque incluya datos de demostración.
 
-> **Demo con datos de ejemplo.** El contenido incluido existe para demostrar componentes y flujos realistas. No debe interpretarse como un sitio institucional oficial ni como una fuente de información académica verificada.
+> **Demo con datos de ejemplo.** El contenido visible existe para demostrar componentes y flujos realistas. No debe interpretarse como un sitio institucional oficial ni como una fuente académica verificada.
 
-## Demo
+## Demo en vivo
 
-https://prueba-pi-eight.vercel.app
+- Portal público: https://prueba-pi-eight.vercel.app
+- Panel de administración: https://prueba-pi-eight.vercel.app/admin
 
-Admin Studio de preparación:
+La administración trabaja sobre una copia local y **no publica cambios**. Esto permite evaluar la experiencia completa sin fingir autenticación ni conectar un backend antes de tiempo.
 
-https://prueba-pi-eight.vercel.app/admin
+## Lo que hace diferente a esta base
 
-El Admin Studio **no publica cambios** y no simula autenticación. Los borradores se guardan localmente hasta que se conecte un backend real.
+| Área | Incluido |
+| --- | --- |
+| Perfil académico | Trayectoria, formación, posiciones, contacto y CV |
+| Producción | Publicaciones, búsqueda, filtros y fichas individuales |
+| Investigación | Proyectos, líneas, colaboraciones y equipo |
+| Docencia | Cursos, materiales y experiencia docente |
+| Difusión | Eventos, blog, galería y podcast |
+| Experiencia | Responsive, claro/oscuro, ES/EN, búsqueda global y PWA |
+| SEO | Open Graph, Schema.org, sitemap, RSS y rutas compartibles |
+| Administración | Formularios amigables, borradores, vista previa y revisión de contenido |
+| Calidad | Build reproducible, Tailwind local, auditoría y GitHub Actions |
+| Seguridad | Headers de Vercel, CSP, noindex del admin y sin secretos en frontend |
 
-## Qué incluye
+## Diseño de la demo
 
-- Portal responsive tipo SPA con navegación lateral.
-- Tema claro/oscuro y contenido bilingüe ES/EN.
-- Perfil académico, experiencia y formación.
-- Publicaciones con búsqueda, filtros y fichas individuales.
-- Investigación, proyectos y grupo de trabajo.
-- Docencia, cursos y materiales.
-- Eventos y calendario.
-- Blog académico.
-- Galería y lightbox.
-- Podcast con reproductor flotante.
-- Buscador global generado en build.
-- SEO técnico, Open Graph, Schema.org, sitemap y RSS.
-- PWA opcional con manifest, Service Worker y fallback offline.
-- Tailwind compilado localmente.
-- Headers de seguridad en Vercel.
-- Admin Studio con edición local, import/export JSON, preview, auditoría de contenido y biblioteca de medios preparada.
-- Quality Gate automático con GitHub Actions.
+La demo conserva información de ejemplo suficientemente realista para mostrar la interfaz en estados completos. Los enlaces placeholder se identifican como acciones demostrativas en vez de comportarse como enlaces rotos, y las fichas generadas usan etiquetas legibles para usuarios no técnicos.
 
-## Filosofía de la base
+La identidad visual mantiene la combinación verde/dorado del portal académico original, con una jerarquía más editorial: sidebar de perfil, ancho de lectura controlado, tarjetas consistentes, contraste reforzado y comportamiento responsive.
 
-Este repositorio prioriza una demo que **se vea terminada aunque use sample data**. La arquitectura separa tres conceptos:
+## Arquitectura
 
-1. **Plantilla:** interfaz, build, navegación, SEO, accesibilidad y herramientas.
-2. **Datos demo:** contenido de ejemplo que permite probar todos los estados de la UI.
-3. **Persistencia futura:** backend opcional; actualmente no existe migración ni publicación remota.
+```mermaid
+flowchart LR
+    SRC[Contenido demo + plantillas] --> BUILD[Build Node]
+    BUILD --> CSS[Tailwind local + capas visuales]
+    BUILD --> DATA[Contenido externo en dist]
+    BUILD --> SEO[SEO / sitemap / RSS / fichas]
+    BUILD --> APP[Portal público]
+    DATA --> APP
+    APP --> ADMIN[Panel de administración]
+    ADMIN --> LOCAL[Borrador local]
+    LOCAL -. futuro .-> BACKEND[(Backend opcional)]
+```
 
-La configuración general vive en `portal.config.json`.
+```text
+.
+├── admin/                  # Panel de administración amigable
+├── assets/
+│   ├── css/                # Tailwind input + diseño público
+│   └── js/                 # Router, renderers y mejoras progresivas
+├── docs/                   # Arquitectura, personalización y roadmap
+├── scripts/                # Build, routing, presentación y auditoría
+├── portal.config.json      # Identidad y modo demo
+├── tailwind.config.cjs
+├── vercel.json
+└── index.html
+```
+
+Durante el build, `CMS_CONTENT` se extrae a `dist/assets/data/`. **No se migra a Supabase ni a ninguna base de datos.**
 
 ## Inicio rápido
 
-Requiere Node.js 24 recomendado (20+ compatible con el proyecto).
+Node.js 24 es la versión recomendada; Node 20+ es compatible.
 
 ```bash
 npm install
@@ -61,79 +80,58 @@ Para generar únicamente producción:
 npm run build
 ```
 
-El resultado se escribe en `dist/`.
+El resultado final se escribe en `dist/`.
 
-## Arquitectura
-
-```text
-.
-├── admin/                  # Admin Studio en modo preparación
-├── assets/
-│   ├── css/                # Tailwind input + estilos del portal
-│   └── js/                 # Router, renderers y mejoras progresivas
-├── docs/                   # Arquitectura, personalización y datos demo
-├── scripts/
-│   ├── build.mjs           # Build, SEO, índices y extracción de contenido
-│   └── audit.mjs           # Quality Gate estructural
-├── portal.config.json      # Configuración de la plantilla/demo
-├── tailwind.config.cjs
-├── vercel.json
-└── index.html
-```
-
-Durante el build, `CMS_CONTENT` se extrae a una capa independiente dentro de `dist/assets/data/`. **La fuente original no se migra a Supabase ni a ninguna base de datos.**
-
-## Personalización
-
-Consulta [`docs/CUSTOMIZATION.md`](docs/CUSTOMIZATION.md).
-
-Ahí se documenta cómo cambiar identidad, dominio, branding, contenido, assets y posteriormente conectar un backend sin rehacer la interfaz.
-
-## Datos de demostración
-
-Consulta [`docs/DEMO-DATA.md`](docs/DEMO-DATA.md).
-
-Los placeholders —por ejemplo enlaces `#`, DOI de muestra o imágenes remotas— se conservan para demostrar los estados soportados por la plantilla. Una implementación real debe sustituirlos y validar derechos de uso.
-
-## Admin Studio
+## Panel de administración
 
 Ruta: `/admin`
 
-Actualmente permite:
+Permite:
 
-- cargar una copia del contenido existente;
-- editar estructuras bilingües;
-- añadir, duplicar, eliminar y reordenar registros;
-- guardar borradores en `localStorage`;
-- importar/exportar JSON;
-- previsualizar escritorio/móvil;
-- revisar salud del contenido y recursos multimedia.
+- cargar una copia del contenido actual;
+- editar información con etiquetas comprensibles;
+- trabajar con campos bilingües ES/EN;
+- añadir, duplicar, eliminar y reordenar elementos;
+- ver imágenes y abrir enlaces desde el propio formulario;
+- guardar borradores en el navegador;
+- revisar campos pendientes, traducciones y posibles repetidos;
+- previsualizar en tamaño computadora o celular;
+- cargar o descargar una copia desde **Más opciones**.
 
-**Publicar permanece bloqueado** hasta conectar autenticación y backend reales.
+**La publicación permanece desactivada** hasta conectar un sistema real de autenticación y persistencia.
 
 ## Calidad y CI
 
-Cada push/PR ejecuta `npm run check` en GitHub Actions. La auditoría verifica, entre otros puntos:
+Cada push y pull request ejecuta `npm run check`. El Quality Gate comprueba, entre otros puntos:
 
-- build reproducible;
-- Tailwind local en producción;
-- separación de contenido y lógica;
+- sintaxis JavaScript válida en el bundle y en el admin;
+- Tailwind compilado localmente;
+- ausencia de routers duplicados;
+- contenido separado de la lógica durante build;
 - archivos PWA/SEO generados;
-- menú sin duplicados;
-- Admin Studio sin publicación insegura.
+- assets de presentación incluidos;
+- panel de administración sin publicación insegura ni lenguaje técnico innecesario;
+- enlaces demo tratados como acciones de demostración.
 
-## Seguridad
+## Personalización
 
-Consulta [`SECURITY.md`](SECURITY.md). Nunca deben almacenarse tokens o secretos en el repositorio.
+- [`docs/CUSTOMIZATION.md`](docs/CUSTOMIZATION.md): identidad, dominio, branding, contenido y assets.
+- [`docs/DEMO-DATA.md`](docs/DEMO-DATA.md): política de datos y placeholders de demostración.
+- [`docs/ARCHITECTURE.md`](docs/ARCHITECTURE.md): estructura técnica.
+- [`docs/ROADMAP.md`](docs/ROADMAP.md): evolución opcional hacia persistencia real.
 
-## Contribuir
+## Mantenimiento
 
-Consulta [`CONTRIBUTING.md`](CONTRIBUTING.md).
+- [`CHANGELOG.md`](CHANGELOG.md): cambios por versión.
+- [`CONTRIBUTING.md`](CONTRIBUTING.md): guía para contribuir.
+- [`SECURITY.md`](SECURITY.md): prácticas y reporte de seguridad.
+
+Dependabot revisa dependencias de npm y GitHub Actions. El repositorio incluye plantillas para issues y pull requests para mantener contribuciones consistentes.
 
 ## Backend futuro
 
-La base está preparada para conectar posteriormente Supabase Auth + Postgres + Storage + RLS u otra solución equivalente. Esa fase es opcional y debe mantener la separación entre contenido publicado, borradores y permisos.
+La interfaz está preparada para conectar posteriormente Supabase Auth + Postgres + Storage + RLS u otra solución equivalente. Esa fase es opcional y debe conservar la separación entre borradores, contenido publicado y permisos.
 
 ---
 
-**Estado:** base profesional demostrativa · sample data · sin migración de backend.
+**Versión 2.2.0 · demo profesional · datos de ejemplo · sin migración de backend.**

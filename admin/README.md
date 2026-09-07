@@ -1,35 +1,39 @@
-# Admin Studio — modo preparación
+# Panel de administración — modo demo
 
-Este directorio prepara el panel administrativo del portal **sin migrar el contenido actual y sin conectar un backend**.
+Este directorio contiene la interfaz administrativa de la plantilla. Está diseñada para sentirse como un panel real sin fingir una capa de publicación que todavía no existe.
 
 ## Estado actual
 
 - Ruta: `/admin`
-- Lee una copia de `window.CMS_CONTENT` desde el portal público.
-- Permite editar todas las secciones detectadas en esa estructura.
-- Guarda borradores únicamente en `localStorage` del navegador.
-- Permite importar y exportar el contenido como JSON.
-- Incluye previsualización del borrador usando el renderer público existente.
-- El botón **Publicar** permanece deshabilitado deliberadamente.
-- El portal público continúa leyendo el contenido embebido actual de `assets/js/app.js`.
+- Lee una copia del contenido que utiliza el portal público.
+- Presenta etiquetas y ayudas comprensibles para usuarios no técnicos.
+- Permite editar todas las secciones detectadas.
+- Incluye campos bilingües ES/EN.
+- Muestra vista previa de imágenes y acceso directo a enlaces válidos.
+- Resume los elementos de listas por título o nombre cuando es posible.
+- Guarda borradores en `localStorage` del navegador.
+- Permite cargar y descargar copias desde **Más opciones**.
+- Incluye vista previa en tamaño computadora o celular.
+- Revisa campos pendientes, traducciones incompletas y posibles repeticiones.
+- La publicación permanece deshabilitada deliberadamente.
 
-## Qué NO hace
+## Límites de la demo
 
 - No migra información a Supabase ni a otra base de datos.
-- No modifica `CMS_CONTENT` del sitio público.
-- No sube imágenes ni archivos a Storage.
+- No modifica el contenido publicado.
+- No sube imágenes o documentos a un servicio remoto.
 - No incluye autenticación ficticia del lado del cliente.
 - No publica borradores.
 
-## Preparado para la fase de backend
+## Evolución opcional
 
-Cuando se decida activar administración real, la capa local puede sustituirse por un adaptador de persistencia con:
+Cuando se active una administración real, la capa local puede sustituirse por un adaptador de persistencia con:
 
-1. Supabase Auth para acceso de administradores.
-2. Postgres para contenido estructurado y versiones.
-3. Storage para imágenes, CV, documentos y audio.
-4. RLS para impedir escrituras no autorizadas.
-5. Estados `draft` / `published` y auditoría de cambios.
-6. Migración controlada de `window.CMS_CONTENT` sólo cuando se autorice.
+1. autenticación para administradores;
+2. base de datos para contenido y versiones;
+3. almacenamiento para imágenes, CV, documentos y audio;
+4. roles y permisos;
+5. estados de borrador/publicado y auditoría de cambios;
+6. migración controlada del contenido únicamente cuando se autorice.
 
-La interfaz del editor está desacoplada de la persistencia: el objetivo es que esa fase cambie el origen/destino de datos, no que obligue a rehacer el panel.
+La interfaz está desacoplada de la persistencia: conectar un backend no debe obligar a reconstruir el panel.
