@@ -5,10 +5,7 @@
     ? new URL(relativePath, currentScript.src).href
     : fallback;
 
-  /*
-   * Load a same-origin critical stylesheet immediately. This keeps the shell
-   * readable even if a third-party CDN is blocked by the browser or network.
-   */
+  /* CSS local de respaldo: mantiene la interfaz utilizable sin depender del CDN. */
   const criticalHref = resolveAsset('../css/critical.css', '/assets/css/critical.css');
   if (!document.querySelector('link[data-critical-css]')) {
     const criticalCss = document.createElement('link');
@@ -18,32 +15,52 @@
     document.head.appendChild(criticalCss);
   }
 
-  /*
-   * index.html still contains legacy/generated Tailwind CSS after styles.css.
-   * Load the responsive hardening layer only after parsing is complete so these
-   * corrections are the final author rules and cannot be silently overwritten.
-   */
+  /* Capa final de responsive/layout. Se carga al terminar de parsear el documento. */
   const layoutHref = resolveAsset('../css/layout-fixes.css', '/assets/css/layout-fixes.css');
-  const loadLayoutFixes = () => {
-    if (document.querySelector('link[data-layout-fixes]')) return;
-    const layoutCss = document.createElement('link');
-    layoutCss.rel = 'stylesheet';
-    layoutCss.href = layoutHref;
-    layoutCss.dataset.layoutFixes = 'true';
-    document.head.appendChild(layoutCss);
+  const finalizeLayout = () => {
+    if (!document.querySelector('link[data-layout-fixes]')) {
+      const layoutCss = document.createElement('link');
+      layoutCss.rel = 'stylesheet';
+      layoutCss.href = layoutHref;
+      layoutCss.dataset.layoutFixes = 'true';
+      document.head.appendChild(layoutCss);
+    }
+
+    /*
+     * El HTML fuente original tenía un enlace de Contacto repetido. Mantener esta
+     * normalización aquí evita duplicados sin contaminar el marcado renderizado.
+     */
+    const nav = document.querySelector('#sidebar nav');
+    if (nav) {
+      const seen = new Set();
+      nav.querySelectorAll('.menu-link[href]').forEach((link) => {
+        const href = link.getAttribute('href');
+        if (!href) return;
+        if (seen.has(href)) {
+          link.remove();
+          return;
+        }
+        seen.add(href);
+      });
+
+      /* Contacto queda como última opción principal; Podcast justo antes. */
+      const podcast = nav.querySelector('.menu-link[href="#/podcast"]');
+      const contact = nav.querySelector('.menu-link[href="#/contacto"]');
+      if (podcast && contact) nav.insertBefore(podcast, contact);
+    }
   };
 
   if (document.readyState === 'loading') {
-    document.addEventListener('DOMContentLoaded', loadLayoutFixes, { once: true });
+    document.addEventListener('DOMContentLoaded', finalizeLayout, { once: true });
   } else {
-    loadLayoutFixes();
+    finalizeLayout();
   }
 
   const UABC_GREEN = '#0b6b3a';
   const UABC_GOLD  = '#c9a227';
   const UABC_DARK  = '#083321';
 
-  /* Avoid a ReferenceError when cdn.tailwindcss.com is unavailable. */
+  /* Evita ReferenceError si cdn.tailwindcss.com no está disponible. */
   window.tailwind = window.tailwind || {};
   window.tailwind.config = {
     darkMode: 'class',
