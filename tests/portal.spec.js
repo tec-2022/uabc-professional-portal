@@ -66,6 +66,33 @@ test.describe('public portal', () => {
     await expect(button).toBeVisible();
   });
 
+  test('gallery lightbox stays centered in the viewport with readable controls', async ({ page }) => {
+    await page.setViewportSize({ width:1440, height:900 });
+    await page.goto('/galeria');
+    await page.locator('.uabc-card').first().click();
+
+    const lightbox = page.locator('#uabcLb');
+    const dialog = page.locator('.uabc-lb-dialog');
+    const title = page.locator('#uabcLbTitle');
+    await expect(lightbox).toHaveClass(/open/);
+    await expect(dialog).toBeVisible();
+    await expect(page.locator('#uabcLbClose')).toBeVisible();
+    await expect(page.locator('#uabcLbDl')).toBeVisible();
+
+    const box = await dialog.boundingBox();
+    expect(box).not.toBeNull();
+    expect(box.x).toBeGreaterThanOrEqual(0);
+    expect(box.y).toBeGreaterThanOrEqual(0);
+    expect(box.x + box.width).toBeLessThanOrEqual(1440);
+    expect(box.y + box.height).toBeLessThanOrEqual(900);
+
+    const titleColor = await title.evaluate(el => getComputedStyle(el).color);
+    expect(titleColor).not.toBe('rgb(15, 23, 42)');
+
+    await page.keyboard.press('Escape');
+    await expect(lightbox).not.toHaveClass(/open/);
+  });
+
   test('demo does not retain a registered service worker', async ({ page }) => {
     await page.goto('/');
     const registrations = await page.evaluate(async () => {
