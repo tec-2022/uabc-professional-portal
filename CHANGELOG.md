@@ -2,29 +2,53 @@
 
 Todos los cambios relevantes del proyecto se documentan aquí.
 
+## 3.0.0 — 2026-09-07
+
+### Sistema visual
+- Producción consolidada en un único `portal.css` local.
+- Tokens semánticos para claro/oscuro, títulos, texto, metadatos, enlaces y superficies.
+- Componentes 3.0 para métricas, acciones, estados vacíos y herramientas de ficha.
+- Focus visible y `prefers-reduced-motion` protegidos por el Quality Gate.
+
+### Experiencia pública
+- Inicio con resumen académico demostrativo y accesos rápidos.
+- Estados vacíos coherentes en secciones dinámicas.
+- Acción “Copiar referencia” en Publicaciones.
+- Branding, secciones y SEO complementario alimentados desde `portal.config.json`.
+- PWA configurable y desactivada por defecto en la demo para evitar bundles obsoletos.
+
+### Administración
+- CSS y JavaScript de producción consolidados en bundles propios.
+- Estado visible de cambios sin guardar / borrador guardado.
+- Protección antes de abandonar la página con cambios pendientes.
+- Guía contextual de la sección que se está editando.
+- La publicación continúa desactivada hasta disponer de backend real.
+
+### Calidad
+- Auditoría estructural 3.0 unificada.
+- Playwright para navegación, rutas, tema, búsqueda y Admin.
+- Axe para WCAG A/AA.
+- Capturas visuales automatizadas en claro/oscuro, escritorio/móvil.
+- Servidor local de pruebas sin dependencias adicionales.
+
+### Configuración y documentación
+- `portal.config.json` centraliza branding, colores, secciones y feature flags.
+- Nuevas guías de sistema visual y pruebas.
+- README actualizado a la arquitectura real 3.0.
+
 ## 2.2.0 — 2026-09-07
 
 ### Presentación
 - Nueva capa `showcase.css` para un acabado más editorial y consistente.
 - Tarjetas, títulos, formularios y fichas individuales con una misma jerarquía visual.
-- Indicador de demo rediseñado para verse intencional y no como una marca de desarrollo.
-- Tratamiento amable de enlaces placeholder: ya no se comportan como enlaces rotos.
-- Fichas individuales con etiquetas legibles y contexto de demostración.
+- Indicador de demo rediseñado.
+- Tratamiento amable de enlaces placeholder.
+- Fichas individuales con etiquetas legibles.
 
 ### Administración
-- Nueva capa `admin-pro.css` / `admin-pro.js`.
-- Navegación del panel con mayor jerarquía visual.
-- Ayudas contextuales para títulos, fechas, autores, imágenes y enlaces.
+- Panel con mayor jerarquía visual y ayudas contextuales.
 - Vista previa de imágenes y acceso directo a enlaces válidos.
-- Resúmenes de elementos dentro de listas para evitar tarjetas genéricas.
-- Indicador orientativo de revisión del contenido.
-- La publicación sigue desactivada hasta conectar persistencia real.
-
-### Repositorio
-- README actualizado a la experiencia real del panel.
-- Roadmap, plantillas de issues y pull requests.
-- Dependabot para npm y GitHub Actions.
-- Quality Gate ampliado para validar las nuevas capas de presentación.
+- Revisión orientativa del contenido.
 
 ## 2.1.0 — 2026-09-07
 
