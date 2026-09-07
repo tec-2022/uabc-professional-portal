@@ -3,6 +3,7 @@ import { execFileSync } from 'node:child_process';
 
 const mustExist = [
   'dist/index.html','dist/admin/index.html','dist/assets/css/tailwind.css','dist/assets/css/template-demo.css',
+  'dist/assets/css/presentation-refinement.css','dist/admin/admin-friendly.css','dist/admin/admin-friendly.js',
   'dist/assets/data/content.js','dist/assets/data/content.json','dist/assets/data/search-index.json',
   'dist/manifest.webmanifest','dist/service-worker.js','dist/sitemap.xml','dist/feed.xml','dist/offline.html',
   'dist/template-info.json'
@@ -15,7 +16,10 @@ for (const file of mustExist) {
   try { await access(file); pass(`${file} existe`); } catch { fail(`${file} falta`); }
 }
 
-for (const file of ['dist/assets/js/app.js','dist/assets/js/enhancements.js','dist/service-worker.js']) {
+for (const file of [
+  'dist/assets/js/app.js','dist/assets/js/enhancements.js','dist/service-worker.js',
+  'dist/admin/admin.js','dist/admin/dashboard.js','dist/admin/admin-friendly.js'
+]) {
   try {
     execFileSync(process.execPath, ['--check', file], { stdio:'pipe' });
     pass(`${file} tiene sintaxis JavaScript válida`);
@@ -30,6 +34,8 @@ const app = await readFile('dist/assets/js/app.js','utf8');
 const enhancements = await readFile('dist/assets/js/enhancements.js','utf8');
 const content = await readFile('dist/assets/data/content.js','utf8');
 const admin = await readFile('dist/admin/index.html','utf8');
+const adminFriendly = await readFile('dist/admin/admin-friendly.js','utf8');
+const presentationCss = await readFile('dist/assets/css/presentation-refinement.css','utf8');
 const manifest = await readFile('dist/manifest.webmanifest','utf8');
 const serviceWorker = await readFile('dist/service-worker.js','utf8');
 const vercel = await readFile('vercel.json','utf8');
@@ -42,12 +48,26 @@ if (!/window\.PORTAL_CONTENT/.test(content)) fail('Contenido externo no generado
 const externalCmsMarker = 'window.CMS_CONTENT = window.CMS_CONTENT || window.PORTAL_CONTENT || {};';
 if (!app.includes(externalCmsMarker)) fail('app.js no consume la capa de datos externa'); else pass('app.js consume la capa de datos externa');
 if ((index.match(/href="#\/contacto"/g) || []).length > 1) fail('Contacto sigue duplicado'); else pass('Menú sin Contacto duplicado');
-if (!/disabled[^>]*title="Se habilitará/.test(admin) && !/class="btn publish"[^>]*disabled/.test(admin)) fail('Publicar del admin no está bloqueado'); else pass('Admin sigue sin publicar sin backend');
+if (!/class="btn publish"[^>]*disabled/.test(admin)) fail('Publicar del admin no está bloqueado'); else pass('Admin sigue sin publicar sin backend');
 if (cssSize < 10000) fail('Tailwind compilado parece demasiado pequeño'); else pass(`Tailwind compilado: ${Math.round(cssSize/1024)} KB`);
 if (/sitio web oficial/i.test(index)) fail('La demo todavía se presenta como sitio oficial'); else pass('Metadata identifica una plantilla/demo, no un sitio oficial');
 if (!/template-demo-notice/.test(index)) fail('Falta indicador discreto de datos demo'); else pass('Demo identifica visualmente los datos de ejemplo');
 if (!templateInfo.sampleData || templateInfo.mode !== 'demo') fail('template-info.json no declara modo demo con sample data'); else pass('Modo demo/sample data declarado');
 if (/Dr\. Eduardo Ahumada-Tello/i.test(manifest)) fail('Manifest PWA sigue ligado al perfil de muestra'); else pass('Manifest PWA desacoplado de los datos de muestra');
+
+if (!index.includes('/assets/css/presentation-refinement.css') || !presentationCss.includes('grid-template-columns: 18.75rem')) {
+  fail('La composición académica refinada no está activa en producción');
+} else {
+  pass('Composición original y contraste refinado activos');
+}
+
+if (/Importar JSON|Exportar JSON|Admin Studio|Modo preparación|Sin migración/i.test(admin)) {
+  fail('El admin todavía expone terminología técnica al usuario');
+} else if (!admin.includes('Panel de administración') || !adminFriendly.includes('sectionHelp')) {
+  fail('Falta la capa de administración amigable');
+} else {
+  pass('Admin usa lenguaje claro y oculta detalles técnicos');
+}
 
 if (!app.includes('CLEAN_ROUTE_PATHS') || !app.includes('history.pushState') || !app.includes("window.addEventListener('popstate', render)")) {
   fail('app.js no contiene el router path-native esperado');
