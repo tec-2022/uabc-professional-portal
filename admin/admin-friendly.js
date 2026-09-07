@@ -49,9 +49,11 @@
   function humanizeLabel(node) {
     const raw = node.textContent.trim();
     if (!raw) return;
-    if (labelMap.has(raw)) node.textContent = labelMap.get(raw);
-
-    // Array headings such as "Items (4)" keep the count but get a human label.
+    const direct = labelMap.get(raw);
+    if (direct && direct !== raw) {
+      node.textContent = direct;
+      return;
+    }
     for (const [technical, friendly] of labelMap.entries()) {
       if (raw.startsWith(`${technical} (`)) {
         node.textContent = raw.replace(technical, friendly);
@@ -62,33 +64,32 @@
 
   function replaceTechnicalUi(root = document) {
     root.querySelectorAll?.('.field > label,.field-label,.object-head strong,.array-head strong,.nav-btn span:first-child').forEach(humanizeLabel);
-    root.querySelectorAll?.('.empty').forEach(node => humanizeLabel(node));
-
+    root.querySelectorAll?.('.empty').forEach(humanizeLabel);
     const toast = document.getElementById('toast');
-    if (toast && labelMap.has(toast.textContent.trim())) toast.textContent = labelMap.get(toast.textContent.trim());
+    if (toast) humanizeLabel(toast);
   }
 
   function updateSectionHelp() {
-    const title = document.getElementById('sectionTitle');
     const editor = document.getElementById('editor');
-    if (!title || !editor) return;
+    if (!editor?.parentElement) return;
 
-    document.getElementById('sectionFriendlyHelp')?.remove();
     const active = document.querySelector('#sectionNav .nav-btn.active span:first-child')?.textContent.trim().toLowerCase() || '';
-    const key = Object.keys(sectionHelp).find(k => {
-      const label = ({
-        home:'inicio', eventos:'eventos', publicaciones:'publicaciones', investigacion:'investigación',
-        docencia:'docencia', blog:'blog', galeria:'galería', gallery_albums:'álbumes de galería',
-        podcast:'podcast', contacto:'contacto'
-      })[k];
-      return label === active;
-    });
+    const labels = {
+      home:'inicio', eventos:'eventos', publicaciones:'publicaciones', investigacion:'investigación',
+      docencia:'docencia', blog:'blog', galeria:'galería', gallery_albums:'álbumes de galería',
+      podcast:'podcast', contacto:'contacto'
+    };
+    const key = Object.keys(sectionHelp).find(k => labels[k] === active);
     const help = sectionHelp[key] || 'Edita los campos de esta sección. Los cambios se guardan como borrador y no modifican el portal público.';
-    const p = document.createElement('p');
-    p.id = 'sectionFriendlyHelp';
-    p.className = 'editor-intro';
-    p.textContent = help;
-    editor.parentElement.insertBefore(p, editor);
+
+    let p = document.getElementById('sectionFriendlyHelp');
+    if (!p) {
+      p = document.createElement('p');
+      p.id = 'sectionFriendlyHelp';
+      p.className = 'editor-intro';
+      editor.parentElement.insertBefore(p, editor);
+    }
+    if (p.textContent !== help) p.textContent = help;
   }
 
   function polishLanguage() {
@@ -97,9 +98,10 @@
 
     const status = document.getElementById('statusText');
     if (status) {
-      status.textContent = status.textContent
+      const friendly = status.textContent
         .replace(/borrador local/gi, 'borrador')
         .replace(/sitio público/gi, 'portal público');
+      if (friendly !== status.textContent) status.textContent = friendly;
     }
   }
 
