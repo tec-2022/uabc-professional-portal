@@ -16,6 +16,7 @@ for (const file of mustExist) {
 
 const index = await readFile('dist/index.html','utf8');
 const app = await readFile('dist/assets/js/app.js','utf8');
+const enhancements = await readFile('dist/assets/js/enhancements.js','utf8');
 const content = await readFile('dist/assets/data/content.js','utf8');
 const admin = await readFile('dist/admin/index.html','utf8');
 const manifest = await readFile('dist/manifest.webmanifest','utf8');
@@ -36,10 +37,17 @@ if (/sitio web oficial/i.test(index)) fail('La demo todavía se presenta como si
 if (!/template-demo-notice/.test(index)) fail('Falta indicador discreto de datos demo'); else pass('Demo identifica visualmente los datos de ejemplo');
 if (!templateInfo.sampleData || templateInfo.mode !== 'demo') fail('template-info.json no declara modo demo con sample data'); else pass('Modo demo/sample data declarado');
 if (/Dr\. Eduardo Ahumada-Tello/i.test(manifest)) fail('Manifest PWA sigue ligado al perfil de muestra'); else pass('Manifest PWA desacoplado de los datos de muestra');
-const appScriptPos = index.indexOf('assets/js/app.js');
-const enhancementsScriptPos = index.indexOf('assets/js/enhancements.js');
-if (appScriptPos < 0 || enhancementsScriptPos < 0 || appScriptPos > enhancementsScriptPos) fail('Orden de scripts puede hacer que rutas limpias regresen a Inicio'); else pass('Router se inicializa antes de limpiar la URL');
+
+if (!app.includes('const CLEAN_ROUTE_PATHS = {') || !app.includes("window.addEventListener('popstate', render)")) {
+  fail('app.js no usa el router nativo por pathname/history');
+} else {
+  pass('app.js navega directamente por rutas limpias');
+}
+if (!app.includes("history.pushState({ route }, '', target + (window.location.search || ''))")) fail('El menú no actualiza history con la ruta seleccionada'); else pass('Menú cambia de sección mediante History API');
+if (/function armRoute\(|function cleanRoute\(|routeToPath\s*=/.test(enhancements)) fail('enhancements.js todavía contiene un segundo router competidor'); else pass('Un solo router controla la navegación');
+
 if (/uabc-portal-v2/.test(serviceWorker) || !/networkFirst/.test(serviceWorker) || !/cache:\s*'no-cache'/.test(serviceWorker)) fail('Service Worker puede servir bundles JS/CSS obsoletos'); else pass('Service Worker prioriza bundles frescos y versiona su caché');
+if (!/v5-path-router/.test(serviceWorker)) fail('Service Worker no fuerza la actualización al nuevo router'); else pass('Service Worker fuerza adopción del router nuevo');
 if (!/assets\/js\/\(\.\*\)[\s\S]*no-cache, max-age=0, must-revalidate/.test(vercel)) fail('Vercel permite cachear JavaScript de la app demasiado tiempo'); else pass('JavaScript de aplicación se revalida en cada actualización');
 
 if (failures) {
