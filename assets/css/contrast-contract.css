@@ -1,0 +1,127 @@
+/* Final foreground-color contract.
+ * Loaded after theme-system.css. It protects intentional text colors from
+ * semantic typography rules while keeping headings and neutral copy coherent.
+ */
+
+/* Neutral text follows the active theme. */
+#app .text-slate-900,
+#app .text-slate-800 { color:var(--ui-heading) !important; }
+#app .text-slate-700,
+#app .text-slate-600 { color:var(--ui-text) !important; }
+#app .text-slate-500,
+#app .text-slate-400 { color:var(--ui-muted) !important; }
+
+html.dark #app .dark\:text-slate-100 { color:#f1f5f9 !important; }
+html.dark #app .dark\:text-slate-200 { color:#e2e8f0 !important; }
+html.dark #app .dark\:text-slate-300 { color:#cbd5e1 !important; }
+html.dark #app .dark\:text-slate-400 { color:#94a3b8 !important; }
+
+/* Brand and categorical colors retain readable contrast in light mode. */
+#app .text-primary-600 { color:#0a5f35 !important; }
+#app .text-primary-700 { color:#094f2c !important; }
+#app .text-primary-800 { color:#083d2b !important; }
+#app .text-primary-900 { color:#062b1c !important; }
+#app .text-accent-600 { color:#7a5a0a !important; }
+#app .text-accent-900 { color:#513d0e !important; }
+#app .text-blue-600 { color:#1d4ed8 !important; }
+#app .text-red-600 { color:#b91c1c !important; }
+#app .text-green-600 { color:#15803d !important; }
+#app .text-purple-600 { color:#7e22ce !important; }
+#app .text-teal-600 { color:#0f766e !important; }
+
+/* Explicit dark variants are restored after semantic rules. */
+html.dark #app .dark\:text-white { color:#fff !important; }
+html.dark #app .dark\:text-primary-100 { color:#d6efe2 !important; }
+html.dark #app .dark\:text-accent-200 { color:#ffe28a !important; }
+html.dark #app .dark\:text-accent-300 { color:#ffd452 !important; }
+html.dark #app .dark\:text-accent-400 { color:#ffca2e !important; }
+html.dark #app .dark\:text-blue-300 { color:#93c5fd !important; }
+html.dark #app .dark\:text-red-300 { color:#fca5a5 !important; }
+html.dark #app .dark\:text-green-300 { color:#86efac !important; }
+html.dark #app .dark\:text-purple-300 { color:#d8b4fe !important; }
+html.dark #app .dark\:text-teal-300 { color:#5eead4 !important; }
+
+/* Semantic headings stay consistent even when old templates carry color utilities. */
+#app .portal-profile-name,
+#app .portal-page-title,
+#app .portal-section-heading,
+#app .portal-card-title {
+  color:var(--ui-heading) !important;
+}
+
+/* White text on dark/brand surfaces must never be neutralized by p/strong/meta rules. */
+#app .text-white { color:#fff !important; }
+#app .text-white p,
+#app .text-white li,
+#app .text-white span,
+#app .text-white strong,
+#app .text-white h1,
+#app .text-white h2,
+#app .text-white h3,
+#app .text-white h4,
+#app .text-white h5,
+#app .text-white h6 { color:inherit !important; }
+
+/* Small badges/chips keep their designed foreground instead of becoming metadata gray. */
+#app .portal-meta.text-white { color:#fff !important; }
+#app .portal-meta.text-primary-600 { color:#0a5f35 !important; }
+#app .portal-meta.text-primary-700 { color:#094f2c !important; }
+#app .portal-meta.text-primary-800 { color:#083d2b !important; }
+#app .portal-meta.text-primary-900 { color:#062b1c !important; }
+#app .portal-meta.text-accent-600 { color:#7a5a0a !important; }
+#app .portal-meta.text-accent-900 { color:#513d0e !important; }
+#app .portal-meta.text-blue-600 { color:#1d4ed8 !important; }
+#app .portal-meta.text-red-600 { color:#b91c1c !important; }
+#app .portal-meta.text-green-600 { color:#15803d !important; }
+#app .portal-meta.text-purple-600 { color:#7e22ce !important; }
+#app .portal-meta.text-teal-600 { color:#0f766e !important; }
+html.dark #app .portal-meta.dark\:text-primary-100 { color:#d6efe2 !important; }
+html.dark #app .portal-meta.dark\:text-accent-200 { color:#ffe28a !important; }
+html.dark #app .portal-meta.dark\:text-accent-300 { color:#ffd452 !important; }
+html.dark #app .portal-meta.dark\:text-blue-300 { color:#93c5fd !important; }
+html.dark #app .portal-meta.dark\:text-red-300 { color:#fca5a5 !important; }
+html.dark #app .portal-meta.dark\:text-green-300 { color:#86efac !important; }
+html.dark #app .portal-meta.dark\:text-purple-300 { color:#d8b4fe !important; }
+html.dark #app .portal-meta.dark\:text-teal-300 { color:#5eead4 !important; }
+
+/* Brand buttons: white on green, dark ink on gold. */
+#app [class*="bg-primary-600"].text-white,
+#app [class*="bg-primary-700"].text-white,
+#app [class*="bg-primary-800"].text-white,
+#app [class*="bg-primary-900"].text-white { color:#fff !important; }
+
+#app [class*="bg-accent-"][class*="text-slate-900"],
+#sidebar [class*="bg-accent-"][class*="text-slate-900"] { color:#172012 !important; }
+
+/* Preserve icon/button foreground inherited from the control. */
+#app button.text-white *,
+#app a.text-white *,
+#sidebar button.text-white *,
+#sidebar a.text-white * { color:inherit !important; }
+
+/* Sidebar colors are theme-independent because the sidebar is always dark green. */
+#sidebar { color:#fff !important; }
+#sidebar .text-white { color:#fff !important; }
+#sidebar .text-white\/70 { color:#d8e5df !important; }
+#sidebar .text-white\/50 { color:#b8cbc2 !important; }
+#sidebar .text-accent-300 { color:#ffd452 !important; }
+#sidebar .text-accent-400 { color:#ffca2e !important; }
+
+/* Search/results use the semantic palette, not stale utility colors. */
+.search-head label,
+.search-result strong { color:var(--ui-heading) !important; }
+.search-result > span:last-child,
+.search-help,
+.search-empty { color:var(--ui-muted) !important; }
+
+/* Form labels and placeholder contrast. */
+#app label { color:var(--ui-heading) !important; }
+#app input::placeholder,
+#app textarea::placeholder,
+.search-input::placeholder { color:var(--ui-subtle) !important; opacity:1; }
+
+/* Disabled controls remain visibly disabled but legible in both themes. */
+#app button:disabled,
+#app [aria-disabled="true"] { color:var(--ui-muted) !important; }
+html.dark #app button:disabled,
+html.dark #app [aria-disabled="true"] { color:#94a3b8 !important; }
