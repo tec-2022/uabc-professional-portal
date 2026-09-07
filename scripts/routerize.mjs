@@ -14,11 +14,17 @@ const newRoute = `const CLEAN_ROUTE_PATHS = {
       privacidad: '/privacidad', cookies: '/cookies'
     };
     const CLEAN_PATH_ROUTES = Object.fromEntries(Object.entries(CLEAN_ROUTE_PATHS).map(([route, path]) => [path, route]));
+    function normalizeCleanPath(value){
+      let path = value || '/';
+      while (path.length > 1 && path.endsWith('/')) path = path.slice(0, -1);
+      return path || '/';
+    }
     function cleanPathForRoute(route){ return CLEAN_ROUTE_PATHS[route] || '/'; }
     function routeNameFromHash(){
-      const hash = (window.location.hash || '').replace(/^#\//, '').toLowerCase();
+      const rawHash = window.location.hash || '';
+      const hash = rawHash.startsWith('#/') ? rawHash.slice(2).toLowerCase() : '';
       if (hash && CLEAN_ROUTE_PATHS[hash]) return hash;
-      const pathname = window.location.pathname.replace(/\/+$/, '') || '/';
+      const pathname = normalizeCleanPath(window.location.pathname);
       return CLEAN_PATH_ROUTES[pathname] || 'home';
     }`;
 
@@ -34,7 +40,7 @@ const oldSetActive = `function setActive(route){
 const newSetActive = `function setActive(route){
       links().forEach(a=>{
         const href = a.getAttribute('href') || '';
-        const cleanHref = href.replace(/\/+$/, '') || '/';
+        const cleanHref = normalizeCleanPath(href);
         const r = href.startsWith('#/')
           ? href.slice(2).toLowerCase()
           : (CLEAN_PATH_ROUTES[cleanHref] || '');
@@ -65,10 +71,10 @@ const newMenu = `links().forEach(a=>{
           const href = a.getAttribute('href') || '';
           const route = href.startsWith('#/')
             ? href.slice(2).toLowerCase()
-            : (CLEAN_PATH_ROUTES[href.replace(/\/+$/, '') || '/'] || '');
+            : (CLEAN_PATH_ROUTES[normalizeCleanPath(href)] || '');
           if (!CLEAN_ROUTE_PATHS[route]) return;
           const target = cleanPathForRoute(route);
-          const current = window.location.pathname.replace(/\/+$/, '') || '/';
+          const current = normalizeCleanPath(window.location.pathname);
           if (current !== target || window.location.hash) {
             history.pushState({ route }, '', target + (window.location.search || ''));
           }
