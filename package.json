@@ -4,7 +4,7 @@
   "private": true,
   "description": "Professional reusable academic portal template with sample data, static build, PWA, SEO and prepared Admin Studio.",
   "scripts": {
-    "build": "node scripts/build.mjs && tailwindcss -c tailwind.config.cjs -i assets/css/tailwind-input.css -o dist/assets/css/tailwind.css --minify && node scripts/professionalize.mjs",
+    "build": "node scripts/build.mjs && node scripts/routerize.mjs && tailwindcss -c tailwind.config.cjs -i assets/css/tailwind-input.css -o dist/assets/css/tailwind.css --minify && node scripts/professionalize.mjs",
     "audit": "node scripts/audit.mjs",
     "check": "npm run build && npm run audit"
   },
