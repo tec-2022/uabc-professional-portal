@@ -1,0 +1,245 @@
+/*
+ * Presentation refinement
+ * Keeps the professional polish while restoring the original information hierarchy.
+ */
+:root {
+  --portal-ink: #0f172a;
+  --portal-body: #334155;
+  --portal-muted: #475569;
+  --portal-subtle: #64748b;
+  --portal-green: #083d2b;
+  --portal-gold-readable: #f0cf58;
+}
+
+body {
+  color: var(--portal-body);
+  background: #f8faf9;
+}
+
+/* Readability: avoid globally washing academic copy out in pale gray. */
+#app p,
+#app li,
+#app dd,
+#app td {
+  color: var(--portal-body);
+}
+
+#app .text-slate-500,
+#app .text-slate-600,
+#app .text-slate-700,
+#app .text-sm.text-slate-600,
+#app .text-xs.text-slate-500 {
+  color: var(--portal-muted) !important;
+}
+
+#app h1,
+#app h2,
+#app h3,
+#app h4,
+#app strong,
+#app dt {
+  color: var(--portal-ink);
+}
+
+#app a:not(.btn):not([class*="bg-"]) {
+  text-underline-offset: .16em;
+}
+
+/* Sidebar proportions return to the original 300 px academic layout. */
+@media (min-width: 768px) {
+  body > div.grid.min-h-screen {
+    grid-template-columns: 18.75rem minmax(0, 1fr) !important;
+  }
+
+  #sidebar {
+    width: 18.75rem !important;
+    padding: 1.5rem !important;
+  }
+
+  main {
+    padding: 2.5rem !important;
+  }
+
+  #app {
+    max-width: 64rem !important;
+  }
+
+  .global-search-button {
+    left: calc(18.75rem + 1.25rem) !important;
+  }
+}
+
+#sidebar > div {
+  gap: 1.5rem !important;
+}
+
+#sidebar .profile-img {
+  width: 8rem !important;
+  height: 8rem !important;
+  margin-bottom: 1rem !important;
+}
+
+#sidebar h1 {
+  color: #fff !important;
+  font-size: 1.5rem !important;
+  line-height: 1.25 !important;
+  letter-spacing: -.025em;
+}
+
+#sidebar [data-i18n="role"] {
+  color: var(--portal-gold-readable) !important;
+  font-weight: 600;
+}
+
+#sidebar [data-i18n="university"] {
+  color: #d8e5df !important;
+  line-height: 1.45;
+}
+
+#sidebar .menu-link {
+  color: #f8faf9 !important;
+  min-height: 2.9rem !important;
+  padding: .72rem .85rem !important;
+}
+
+#sidebar .menu-link svg,
+#sidebar .menu-link i {
+  color: #efca43 !important;
+}
+
+#sidebar .text-white\/50,
+#sidebar .text-white\/70 {
+  color: #c8d8d0 !important;
+}
+
+#sidebar a:hover {
+  color: #fff;
+}
+
+/* Restore the original home-header geometry: top-aligned portrait + name + biography. */
+#app > section > header:first-child {
+  align-items: flex-start !important;
+  gap: 2rem !important;
+  margin-bottom: 2.5rem !important;
+}
+
+#app > section > header:first-child .profile-img {
+  width: 14rem !important;
+  height: 14rem !important;
+  flex: 0 0 14rem !important;
+  border: 0 !important;
+  box-shadow: 0 12px 30px -18px rgba(15, 23, 42, .45) !important;
+}
+
+#app > section > header:first-child h2 {
+  margin-top: .15rem;
+  font-size: 2.25rem !important;
+  line-height: 1.15 !important;
+  color: var(--portal-ink) !important;
+}
+
+#app > section > header:first-child hr {
+  margin-block: 1rem !important;
+  border-color: #dce3e0 !important;
+}
+
+#app > section > header:first-child p {
+  max-width: 48rem !important;
+  color: #27364a !important;
+  line-height: 1.65 !important;
+  text-align: justify !important;
+}
+
+/* Cards should read as academic content, not disabled dashboard widgets. */
+#positionsList > div,
+#educationList > div,
+#moreSections .timeline-card,
+#upcomingEvents > div,
+#pastEvents > div {
+  color: var(--portal-body);
+}
+
+#positionsList .text-sm,
+#educationList .text-sm,
+#moreSections .text-sm {
+  color: var(--portal-muted) !important;
+}
+
+/* Dark mode with real contrast rather than gray-on-gray. */
+.dark body,
+html.dark body {
+  color: #e2e8f0;
+}
+
+.dark #app p,
+.dark #app li,
+.dark #app dd,
+.dark #app td {
+  color: #d5dde7 !important;
+}
+
+.dark #app h1,
+.dark #app h2,
+.dark #app h3,
+.dark #app h4,
+.dark #app strong,
+.dark #app dt {
+  color: #f8fafc !important;
+}
+
+.dark #app > section > header:first-child p {
+  color: #d5dde7 !important;
+}
+
+.dark #app .text-slate-500,
+.dark #app .text-slate-600,
+.dark #app .text-slate-700 {
+  color: #c1ccd9 !important;
+}
+
+@media (min-width: 768px) and (max-width: 1023px) {
+  body > div.grid.min-h-screen {
+    grid-template-columns: 17rem minmax(0, 1fr) !important;
+  }
+  #sidebar { width: 17rem !important; }
+  #sidebar .profile-img { width: 7rem !important; height: 7rem !important; }
+  #app > section > header:first-child .profile-img {
+    width: 11rem !important;
+    height: 11rem !important;
+    flex-basis: 11rem !important;
+  }
+  main { padding: 2rem !important; }
+  .global-search-button { left: calc(17rem + 1rem) !important; }
+}
+
+@media (max-width: 767px) {
+  #sidebar .profile-img {
+    width: 7rem !important;
+    height: 7rem !important;
+  }
+
+  #sidebar h1 {
+    font-size: 1.35rem !important;
+  }
+
+  #app > section > header:first-child {
+    align-items: center !important;
+    gap: 1.35rem !important;
+  }
+
+  #app > section > header:first-child .profile-img {
+    width: 10rem !important;
+    height: 10rem !important;
+    flex-basis: 10rem !important;
+  }
+
+  #app > section > header:first-child h2 {
+    font-size: clamp(1.85rem, 8vw, 2.2rem) !important;
+    text-align: center;
+  }
+
+  #app > section > header:first-child p {
+    max-width: none !important;
+    text-align: left !important;
+  }
+}
