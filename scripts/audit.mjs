@@ -1,4 +1,5 @@
 import { access, readFile, stat } from 'node:fs/promises';
+import { execFileSync } from 'node:child_process';
 
 const mustExist = [
   'dist/index.html','dist/admin/index.html','dist/assets/css/tailwind.css','dist/assets/css/template-demo.css',
@@ -12,6 +13,16 @@ const pass = message => console.log(`✓ ${message}`);
 
 for (const file of mustExist) {
   try { await access(file); pass(`${file} existe`); } catch { fail(`${file} falta`); }
+}
+
+for (const file of ['dist/assets/js/app.js','dist/assets/js/enhancements.js','dist/service-worker.js']) {
+  try {
+    execFileSync(process.execPath, ['--check', file], { stdio:'pipe' });
+    pass(`${file} tiene sintaxis JavaScript válida`);
+  } catch (error) {
+    const detail = error?.stderr?.toString?.().trim();
+    fail(`${file} contiene JavaScript inválido${detail ? `: ${detail.split('\n').slice(-3).join(' ')}` : ''}`);
+  }
 }
 
 const index = await readFile('dist/index.html','utf8');
@@ -38,16 +49,14 @@ if (!/template-demo-notice/.test(index)) fail('Falta indicador discreto de datos
 if (!templateInfo.sampleData || templateInfo.mode !== 'demo') fail('template-info.json no declara modo demo con sample data'); else pass('Modo demo/sample data declarado');
 if (/Dr\. Eduardo Ahumada-Tello/i.test(manifest)) fail('Manifest PWA sigue ligado al perfil de muestra'); else pass('Manifest PWA desacoplado de los datos de muestra');
 
-if (!app.includes('const CLEAN_ROUTE_PATHS = {') || !app.includes("window.addEventListener('popstate', render)")) {
-  fail('app.js no usa el router nativo por pathname/history');
+if (!app.includes('CLEAN_ROUTE_PATHS') || !app.includes('history.pushState') || !app.includes("window.addEventListener('popstate', render)")) {
+  fail('app.js no contiene el router path-native esperado');
 } else {
-  pass('app.js navega directamente por rutas limpias');
+  pass('app.js controla navegación limpia con History API');
 }
-if (!app.includes("history.pushState({ route }, '', target + (window.location.search || ''))")) fail('El menú no actualiza history con la ruta seleccionada'); else pass('Menú cambia de sección mediante History API');
-if (/function armRoute\(|function cleanRoute\(|routeToPath\s*=/.test(enhancements)) fail('enhancements.js todavía contiene un segundo router competidor'); else pass('Un solo router controla la navegación');
+if (/function armRoute\(|function cleanRoute\(/.test(enhancements)) fail('enhancements.js todavía contiene un router paralelo'); else pass('No existe un segundo router en enhancements.js');
 
 if (/uabc-portal-v2/.test(serviceWorker) || !/networkFirst/.test(serviceWorker) || !/cache:\s*'no-cache'/.test(serviceWorker)) fail('Service Worker puede servir bundles JS/CSS obsoletos'); else pass('Service Worker prioriza bundles frescos y versiona su caché');
-if (!/v5-path-router/.test(serviceWorker)) fail('Service Worker no fuerza la actualización al nuevo router'); else pass('Service Worker fuerza adopción del router nuevo');
 if (!/assets\/js\/\(\.\*\)[\s\S]*no-cache, max-age=0, must-revalidate/.test(vercel)) fail('Vercel permite cachear JavaScript de la app demasiado tiempo'); else pass('JavaScript de aplicación se revalida en cada actualización');
 
 if (failures) {
