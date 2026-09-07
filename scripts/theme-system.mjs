@@ -4,6 +4,7 @@ import { join } from 'node:path';
 const ROOT = process.cwd();
 const DIST = join(ROOT, 'dist');
 const THEME_CSS = '/assets/css/theme-system.css';
+const CONTRAST_CSS = '/assets/css/contrast-contract.css';
 const THEME_JS = '/assets/js/theme-system.js';
 const ADMIN_CSS = '/admin/admin-consistency.css';
 
@@ -14,6 +15,14 @@ function injectTheme(html) {
       ? html.replace(showcase, `${showcase}\n  <link rel="stylesheet" href="${THEME_CSS}">`)
       : html.replace('</head>', `  <link rel="stylesheet" href="${THEME_CSS}">\n</head>`);
   }
+
+  if (!html.includes(CONTRAST_CSS)) {
+    const theme = `<link rel="stylesheet" href="${THEME_CSS}">`;
+    html = html.includes(theme)
+      ? html.replace(theme, `${theme}\n  <link rel="stylesheet" href="${CONTRAST_CSS}">`)
+      : html.replace('</head>', `  <link rel="stylesheet" href="${CONTRAST_CSS}">\n</head>`);
+  }
+
   if (!html.includes(THEME_JS)) {
     /* Head loading applies the saved theme before the body paints. */
     html = html.replace('</head>', `  <script src="${THEME_JS}"></script>\n</head>`);
@@ -88,4 +97,4 @@ await updateMainPage();
 const detailCount = await updateDetailPages();
 await updateAdmin();
 
-console.log(`Sistema visual final aplicado: capa heredada ${removed ? 'retirada' : 'no presente'}, ${detailCount} fichas sincronizadas.`);
+console.log(`Sistema visual final aplicado: capa heredada ${removed ? 'retirada' : 'no presente'}, contrato de contraste activo, ${detailCount} fichas sincronizadas.`);
