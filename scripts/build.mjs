@@ -166,7 +166,8 @@ html = html.replace(/<script src="https:\/\/cdn\.tailwindcss\.com">[\s\S]*?<\/sc
 html = html.replace(/\s*<script src="assets\/js\/tailwind-config\.js"><\/script>/, '');
 html = html.replace('<link rel="canonical" href="https://tu-dominio.com">', `<link rel="canonical" href="${BASE_URL}/">`);
 html = html.replace('<link rel="stylesheet" href="assets/css/styles.css">', '<link rel="stylesheet" href="/assets/css/tailwind.css">\n  <link rel="stylesheet" href="/assets/css/styles.css">\n  <link rel="stylesheet" href="/assets/css/layout-fixes.css">\n  <link rel="stylesheet" href="/assets/css/enhancements.css">\n  <link rel="manifest" href="/manifest.webmanifest">\n  <link rel="alternate" type="application/rss+xml" title="Portal académico" href="/feed.xml">\n  <meta name="theme-color" content="#083321">');
-html = html.replace('<script src="assets/js/app.js"></script>', '<script src="/assets/data/content.js"></script>\n  <script src="/assets/js/enhancements.js"></script>\n  <script src="assets/js/app.js"></script>');
+/* app.js must register its DOMContentLoaded router before enhancements.js cleans the temporary hash. */
+html = html.replace('<script src="assets/js/app.js"></script>', '<script src="/assets/data/content.js"></script>\n  <script src="assets/js/app.js"></script>\n  <script src="/assets/js/enhancements.js"></script>');
 const contactLink = /\s*<a href="#\/contacto" class="menu-link[\s\S]*?<\/a>/g;
 const contacts = html.match(contactLink) || [];
 if (contacts.length > 1) {
