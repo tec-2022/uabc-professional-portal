@@ -8,6 +8,8 @@
     '#pubsContainer','#projectsGrid','#episodesGrid','#postsList','#latestPost','#contactCards'
   ].join(',');
 
+  const INTENTIONAL_COLOR = /(?:^|\s)(?:text-white(?:\/\d+)?|text-(?:primary|accent|blue|red|green|purple|teal)-(?:100|200|300|400|500|600|700|800|900)|dark:text-(?:white|primary|accent|blue|red|green|purple|teal)-(?:100|200|300|400|500|600|700|800|900)|bg-(?:primary|accent|blue|red|green|purple|teal|black)-)/;
+
   function storedTheme() {
     try { return localStorage.getItem('theme') || 'light'; }
     catch { return 'light'; }
@@ -25,7 +27,6 @@
     }
   }
 
-  /* Detail pages do not load app.js, so they still inherit the saved theme. */
   if (storedTheme() === 'dark') ROOT.classList.add('dark');
   else ROOT.classList.remove('dark');
   syncThemeState();
@@ -58,6 +59,14 @@
     return Boolean(node.closest('article,.portal-card,.timeline-card,.uabc-card'));
   }
 
+  function hasIntentionalColor(node) {
+    const classes = typeof node.className === 'string' ? node.className : '';
+    if (INTENTIONAL_COLOR.test(classes)) return true;
+    return Boolean(node.closest(
+      'button,[role="button"],.badge,.tag,[class~="text-white"],[class*="bg-primary-"],[class*="bg-accent-"],[class*="bg-blue-"],[class*="bg-red-"],[class*="bg-green-"],[class*="bg-purple-"],[class*="bg-teal-"]'
+    ));
+  }
+
   function decorateSection() {
     const app = document.getElementById('app');
     const section = app?.querySelector(':scope > section');
@@ -68,7 +77,6 @@
     if (isHome(section)) {
       const name = section.querySelector('[data-i18n="title_name"]');
       if (name) name.classList.add('portal-profile-name');
-      /* Home keeps the original biography spacing/justification instead of section-intro margins. */
     } else {
       const title = section.querySelector('h2');
       if (title) {
@@ -81,11 +89,12 @@
     section.querySelectorAll('h3').forEach(heading => {
       heading.classList.add(insideCard(heading) ? 'portal-card-title' : 'portal-section-heading');
     });
-    /* H4 remains a subordinate level, including legal-page subsections. */
     section.querySelectorAll('h4').forEach(heading => heading.classList.add('portal-card-title'));
 
     section.querySelectorAll('.text-xs,.text-sm').forEach(node => {
-      if (!node.matches('h1,h2,h3,h4,strong')) node.classList.add('portal-meta');
+      if (!node.matches('h1,h2,h3,h4,strong') && !hasIntentionalColor(node)) {
+        node.classList.add('portal-meta');
+      }
     });
   }
 
