@@ -34,6 +34,9 @@ if (/sitio web oficial/i.test(index)) fail('La demo todavía se presenta como si
 if (!/template-demo-notice/.test(index)) fail('Falta indicador discreto de datos demo'); else pass('Demo identifica visualmente los datos de ejemplo');
 if (!templateInfo.sampleData || templateInfo.mode !== 'demo') fail('template-info.json no declara modo demo con sample data'); else pass('Modo demo/sample data declarado');
 if (/Dr\. Eduardo Ahumada-Tello/i.test(manifest)) fail('Manifest PWA sigue ligado al perfil de muestra'); else pass('Manifest PWA desacoplado de los datos de muestra');
+const appScriptPos = index.indexOf('assets/js/app.js');
+const enhancementsScriptPos = index.indexOf('assets/js/enhancements.js');
+if (appScriptPos < 0 || enhancementsScriptPos < 0 || appScriptPos > enhancementsScriptPos) fail('Orden de scripts puede hacer que rutas limpias regresen a Inicio'); else pass('Router se inicializa antes de limpiar la URL');
 
 if (failures) {
   console.error(`\nAuditoría falló con ${failures} problema(s).`);
