@@ -1,8 +1,8 @@
-const CACHE = 'uabc-portal-v8-theme-system-20260907';
+const CACHE = 'uabc-portal-v9-contrast-contract-20260907';
 const CORE = [
   '/', '/offline.html', '/manifest.webmanifest',
   '/assets/css/tailwind.css', '/assets/css/styles.css', '/assets/css/layout-fixes.css', '/assets/css/enhancements.css',
-  '/assets/css/template-demo.css', '/assets/css/presentation-refinement.css', '/assets/css/showcase.css', '/assets/css/theme-system.css',
+  '/assets/css/template-demo.css', '/assets/css/presentation-refinement.css', '/assets/css/showcase.css', '/assets/css/theme-system.css', '/assets/css/contrast-contract.css',
   '/assets/js/app.js', '/assets/js/enhancements.js', '/assets/js/showcase.js', '/assets/js/theme-system.js',
   '/assets/data/content.js', '/assets/data/search-index.json'
 ];
