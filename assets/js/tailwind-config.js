@@ -1,20 +1,42 @@
 /* Paleta UABC + modo oscuro en Tailwind */
 (() => {
-  /*
-   * Load a same-origin critical stylesheet first. This keeps the shell readable
-   * even if a third-party CDN is blocked by the browser, network or policy.
-   */
   const currentScript = document.currentScript;
-  const criticalHref = currentScript
-    ? new URL('../css/critical.css', currentScript.src).href
-    : '/assets/css/critical.css';
+  const resolveAsset = (relativePath, fallback) => currentScript
+    ? new URL(relativePath, currentScript.src).href
+    : fallback;
 
+  /*
+   * Load a same-origin critical stylesheet immediately. This keeps the shell
+   * readable even if a third-party CDN is blocked by the browser or network.
+   */
+  const criticalHref = resolveAsset('../css/critical.css', '/assets/css/critical.css');
   if (!document.querySelector('link[data-critical-css]')) {
     const criticalCss = document.createElement('link');
     criticalCss.rel = 'stylesheet';
     criticalCss.href = criticalHref;
     criticalCss.dataset.criticalCss = 'true';
     document.head.appendChild(criticalCss);
+  }
+
+  /*
+   * index.html still contains legacy/generated Tailwind CSS after styles.css.
+   * Load the responsive hardening layer only after parsing is complete so these
+   * corrections are the final author rules and cannot be silently overwritten.
+   */
+  const layoutHref = resolveAsset('../css/layout-fixes.css', '/assets/css/layout-fixes.css');
+  const loadLayoutFixes = () => {
+    if (document.querySelector('link[data-layout-fixes]')) return;
+    const layoutCss = document.createElement('link');
+    layoutCss.rel = 'stylesheet';
+    layoutCss.href = layoutHref;
+    layoutCss.dataset.layoutFixes = 'true';
+    document.head.appendChild(layoutCss);
+  };
+
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', loadLayoutFixes, { once: true });
+  } else {
+    loadLayoutFixes();
   }
 
   const UABC_GREEN = '#0b6b3a';
