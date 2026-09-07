@@ -1,16 +1,16 @@
 name: Quality Gate
 on:
   push:
-    branches: [main]
+    branches: [main, phase-3-professional-consolidation-final]
   pull_request:
 
 permissions:
   contents: read
 
 jobs:
-  build-and-audit:
+  build-audit-and-browser-tests:
     runs-on: ubuntu-latest
-    timeout-minutes: 10
+    timeout-minutes: 25
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-node@v4
@@ -18,11 +18,27 @@ jobs:
           node-version: 24
       - name: Install dependencies
         run: npm install --no-audit --no-fund
-      - name: Build and audit
+      - name: Build and structural audit
         run: npm run check
+      - name: Install Chromium
+        run: npx playwright install --with-deps chromium
+      - name: End-to-end and accessibility checks
+        run: npm run test:e2e
+      - name: Visual smoke capture
+        run: npm run test:visual
       - name: Upload production bundle
         uses: actions/upload-artifact@v4
         with:
           name: dist
           path: dist
+          retention-days: 7
+      - name: Upload browser quality artifacts
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: browser-quality
+          path: |
+            playwright-report
+            test-results
+          if-no-files-found: ignore
           retention-days: 7

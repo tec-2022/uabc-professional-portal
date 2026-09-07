@@ -2,136 +2,150 @@
 
 ![Quality Gate](https://github.com/tec-2022/uabc-professional-portal/actions/workflows/quality.yml/badge.svg)
 
-**Plantilla profesional y reutilizable para portales académicos, docentes y de investigación.** Está pensada para verse como un producto terminado desde el primer clone, aunque incluya datos de demostración.
+**Plantilla profesional y reutilizable para perfiles académicos, docencia e investigación.** La versión 3.0 consolida la demo como un producto completo: sistema visual único en producción, navegación limpia, administración amigable y controles automáticos de calidad en navegador.
 
-> **Demo con datos de ejemplo.** El contenido visible existe para demostrar componentes y flujos realistas. No debe interpretarse como un sitio institucional oficial ni como una fuente académica verificada.
+> **Demo con datos de ejemplo.** Los nombres, publicaciones, proyectos, cursos, eventos y recursos incluidos sirven para mostrar estados realistas de la plantilla. No representan un sitio institucional oficial ni una fuente académica verificada.
 
-## Demo en vivo
+## Demo
 
 - Portal público: https://prueba-pi-eight.vercel.app
 - Panel de administración: https://prueba-pi-eight.vercel.app/admin
 
-La administración trabaja sobre una copia local y **no publica cambios**. Esto permite evaluar la experiencia completa sin fingir autenticación ni conectar un backend antes de tiempo.
+El panel trabaja sobre un borrador local y **no publica cambios**. No se simula autenticación ni persistencia que todavía no existe.
 
-## Lo que hace diferente a esta base
+## Capacidades
 
 | Área | Incluido |
 | --- | --- |
-| Perfil académico | Trayectoria, formación, posiciones, contacto y CV |
-| Producción | Publicaciones, búsqueda, filtros y fichas individuales |
-| Investigación | Proyectos, líneas, colaboraciones y equipo |
+| Perfil | Biografía, trayectoria, formación, posiciones, CV y contacto |
+| Publicaciones | Búsqueda, filtros, fichas, DOI/enlaces demo y copiar referencia |
+| Investigación | Líneas, proyectos, colaboración y fichas compartibles |
 | Docencia | Cursos, materiales y experiencia docente |
 | Difusión | Eventos, blog, galería y podcast |
-| Experiencia | Responsive, claro/oscuro, ES/EN, búsqueda global y PWA |
-| SEO | Open Graph, Schema.org, sitemap, RSS y rutas compartibles |
-| Administración | Formularios amigables, borradores, vista previa y revisión de contenido |
-| Calidad | Build reproducible, Tailwind local, auditoría y GitHub Actions |
-| Seguridad | Headers de Vercel, CSP, noindex del admin y sin secretos en frontend |
+| UX | Responsive, claro/oscuro, ES/EN, estados vacíos, búsqueda global y navegación limpia |
+| SEO | Canonical, Open Graph, Schema.org, sitemap, RSS y detalle estático |
+| Administración | Formularios humanos, borradores, preview, reordenamiento y aviso de cambios sin guardar |
+| Calidad | Auditoría estructural, Playwright, axe y capturas visuales en CI |
+| Seguridad | CSP, headers de Vercel, admin noindex y cero secretos de frontend |
 
-## Diseño de la demo
+## Qué cambió en 3.0
 
-La demo conserva información de ejemplo suficientemente realista para mostrar la interfaz en estados completos. Los enlaces placeholder se identifican como acciones demostrativas en vez de comportarse como enlaces rotos, y las fichas generadas usan etiquetas legibles para usuarios no técnicos.
+La producción ya no depende de una cascada de hojas visuales cargadas por separado. El build conserva módulos fuente mantenibles, pero entrega **un único `portal.css`** para el portal público y bundles consolidados para `/admin`. `portal.config.json` concentra identidad, colores, secciones y feature flags.
 
-La identidad visual mantiene la combinación verde/dorado del portal académico original, con una jerarquía más editorial: sidebar de perfil, ancho de lectura controlado, tarjetas consistentes, contraste reforzado y comportamiento responsive.
+La PWA es ahora opcional. La demo la mantiene desactivada para priorizar actualizaciones inmediatas; si existía un Service Worker anterior, el runtime lo elimina de forma segura.
+
+Inicio incorpora un resumen académico demostrativo, accesos rápidos y estados vacíos coherentes. Publicaciones añade una acción para copiar la referencia visible. El admin comunica claramente si hay cambios sin guardar y protege contra cierres accidentales.
 
 ## Arquitectura
 
 ```mermaid
 flowchart LR
-    SRC[Contenido demo + plantillas] --> BUILD[Build Node]
-    BUILD --> CSS[Tailwind local + capas visuales]
-    BUILD --> DATA[Contenido externo en dist]
-    BUILD --> SEO[SEO / sitemap / RSS / fichas]
+    CONFIG[portal.config.json] --> BUILD[Build Node]
+    CONTENT[Contenido demo] --> BUILD
+    MODULES[Módulos CSS/JS] --> BUILD
+    BUILD --> PORTALCSS[portal.css]
+    BUILD --> DATA[content + site-config]
     BUILD --> APP[Portal público]
-    DATA --> APP
-    APP --> ADMIN[Panel de administración]
-    ADMIN --> LOCAL[Borrador local]
-    LOCAL -. futuro .-> BACKEND[(Backend opcional)]
+    BUILD --> ADMIN[Admin bundles]
+    APP --> TESTS[Playwright + axe + visual smoke]
+    ADMIN --> DRAFT[Borrador local]
+    DRAFT -. opcional .-> BACKEND[(Backend futuro)]
 ```
 
 ```text
 .
-├── admin/                  # Panel de administración amigable
+├── admin/                  # Admin fuente + capa v3
 ├── assets/
-│   ├── css/                # Tailwind input + diseño público
+│   ├── css/                # Módulos fuente del sistema visual
 │   └── js/                 # Router, renderers y mejoras progresivas
-├── docs/                   # Arquitectura, personalización y roadmap
-├── scripts/                # Build, routing, presentación y auditoría
-├── portal.config.json      # Identidad y modo demo
+├── tests/                  # E2E, accesibilidad y visual smoke
+├── docs/                   # Arquitectura, diseño, pruebas y personalización
+├── scripts/                # Build, consolidación, servidor y auditoría
+├── portal.config.json      # Branding, features y modo demo
+├── playwright.config.js
 ├── tailwind.config.cjs
-├── vercel.json
-└── index.html
+└── vercel.json
 ```
 
-Durante el build, `CMS_CONTENT` se extrae a `dist/assets/data/`. **No se migra a Supabase ni a ninguna base de datos.**
+Durante el build, `CMS_CONTENT` se extrae a `dist/assets/data/`. **No se migra a Supabase ni a otra base de datos.**
 
 ## Inicio rápido
 
-Node.js 24 es la versión recomendada; Node 20+ es compatible.
+Node.js 24 recomendado; Node 20+ compatible.
 
 ```bash
 npm install
 npm run check
 ```
 
-Para generar únicamente producción:
+Pruebas de navegador:
+
+```bash
+npx playwright install chromium
+npm run test:e2e
+npm run test:visual
+```
+
+Servidor local del build, sin dependencias adicionales:
 
 ```bash
 npm run build
+npm run serve
 ```
 
-El resultado final se escribe en `dist/`.
+## Configuración
+
+`portal.config.json` permite centralizar:
+
+- nombre, cargo e institución del perfil;
+- dominio y metadata;
+- colores principales;
+- tema por defecto;
+- secciones habilitadas;
+- búsqueda, bilingüismo, PWA y otras features;
+- estado demo y política de placeholders.
+
+Consulta [`docs/CUSTOMIZATION.md`](docs/CUSTOMIZATION.md) y [`docs/DESIGN-SYSTEM.md`](docs/DESIGN-SYSTEM.md).
 
 ## Panel de administración
 
 Ruta: `/admin`
 
-Permite:
+Permite editar contenido con nombres comprensibles, trabajar con ES/EN, añadir/duplicar/eliminar/reordenar elementos, previsualizar imágenes y enlaces, guardar borradores y revisar la vista en computadora o celular.
 
-- cargar una copia del contenido actual;
-- editar información con etiquetas comprensibles;
-- trabajar con campos bilingües ES/EN;
-- añadir, duplicar, eliminar y reordenar elementos;
-- ver imágenes y abrir enlaces desde el propio formulario;
-- guardar borradores en el navegador;
-- revisar campos pendientes, traducciones y posibles repetidos;
-- previsualizar en tamaño computadora o celular;
-- cargar o descargar una copia desde **Más opciones**.
+La versión 3.0 añade un estado visible **Sin cambios / Cambios sin guardar / Borrador guardado** y una protección `beforeunload` para evitar perder trabajo accidentalmente.
 
-**La publicación permanece desactivada** hasta conectar un sistema real de autenticación y persistencia.
+**Publicación sigue desactivada** hasta que exista un backend real con autenticación y permisos.
 
-## Calidad y CI
+## Calidad
 
-Cada push y pull request ejecuta `npm run check`. El Quality Gate comprueba, entre otros puntos:
+Cada push y pull request ejecuta:
 
-- sintaxis JavaScript válida en el bundle y en el admin;
-- Tailwind compilado localmente;
-- ausencia de routers duplicados;
-- contenido separado de la lógica durante build;
-- archivos PWA/SEO generados;
-- assets de presentación incluidos;
-- panel de administración sin publicación insegura ni lenguaje técnico innecesario;
-- enlaces demo tratados como acciones de demostración.
+1. build reproducible y auditoría estructural;
+2. instalación de Chromium;
+3. navegación E2E sobre rutas públicas y admin;
+4. pruebas WCAG con axe;
+5. comprobaciones claro/oscuro y PWA;
+6. capturas visuales de rutas representativas en escritorio y móvil.
 
-## Personalización
+Las capturas quedan como artifacts del workflow para revisión visual. Consulta [`docs/TESTING.md`](docs/TESTING.md).
 
-- [`docs/CUSTOMIZATION.md`](docs/CUSTOMIZATION.md): identidad, dominio, branding, contenido y assets.
-- [`docs/DEMO-DATA.md`](docs/DEMO-DATA.md): política de datos y placeholders de demostración.
-- [`docs/ARCHITECTURE.md`](docs/ARCHITECTURE.md): estructura técnica.
-- [`docs/ROADMAP.md`](docs/ROADMAP.md): evolución opcional hacia persistencia real.
+## Documentación
 
-## Mantenimiento
-
-- [`CHANGELOG.md`](CHANGELOG.md): cambios por versión.
-- [`CONTRIBUTING.md`](CONTRIBUTING.md): guía para contribuir.
-- [`SECURITY.md`](SECURITY.md): prácticas y reporte de seguridad.
-
-Dependabot revisa dependencias de npm y GitHub Actions. El repositorio incluye plantillas para issues y pull requests para mantener contribuciones consistentes.
+- [`docs/ARCHITECTURE.md`](docs/ARCHITECTURE.md)
+- [`docs/CUSTOMIZATION.md`](docs/CUSTOMIZATION.md)
+- [`docs/DESIGN-SYSTEM.md`](docs/DESIGN-SYSTEM.md)
+- [`docs/TESTING.md`](docs/TESTING.md)
+- [`docs/DEMO-DATA.md`](docs/DEMO-DATA.md)
+- [`docs/ROADMAP.md`](docs/ROADMAP.md)
+- [`CHANGELOG.md`](CHANGELOG.md)
+- [`CONTRIBUTING.md`](CONTRIBUTING.md)
+- [`SECURITY.md`](SECURITY.md)
 
 ## Backend futuro
 
-La interfaz está preparada para conectar posteriormente Supabase Auth + Postgres + Storage + RLS u otra solución equivalente. Esa fase es opcional y debe conservar la separación entre borradores, contenido publicado y permisos.
+La siguiente evolución opcional puede conectar Supabase Auth + Postgres + Storage + RLS u otra solución equivalente. La UI actual no depende de esa migración y debe conservar la separación entre borrador, publicación y permisos.
 
 ---
 
-**Versión 2.2.0 · demo profesional · datos de ejemplo · sin migración de backend.**
+**Versión 3.0.0 · demo profesional · datos de ejemplo · backend no migrado.**

@@ -1,40 +1,43 @@
 # Roadmap
 
-El portal ya funciona como una demo profesional completa. Las siguientes etapas son opcionales y están pensadas para una implementación real, no para completar la demo.
+La demo 3.0 se considera funcionalmente completa como base profesional. Las siguientes etapas son opcionales y corresponden a una implementación real, no a pendientes necesarios para que la plantilla se vea terminada.
 
-## Estado actual — 2.2
+## Estado actual — 3.0
 
 - Build estático reproducible.
-- Tailwind compilado localmente.
-- Navegación limpia y responsive.
-- Perfil, publicaciones, investigación, docencia, eventos, blog, galería y podcast.
-- SEO, sitemap, RSS, PWA y búsqueda global.
-- Fichas individuales generadas en build.
-- Panel de administración amigable con borradores locales y vista previa.
-- Datos de ejemplo claramente identificados.
-- Quality Gate en GitHub Actions.
+- Sistema visual consolidado en producción.
+- Claro/oscuro con tokens semánticos y contrato de contraste.
+- Navegación limpia, responsive y accesible.
+- Perfil, publicaciones, investigación, docencia, eventos, blog, galería, podcast y contacto.
+- Resumen de Inicio, estados vacíos y acciones de ficha.
+- SEO, sitemap, RSS, búsqueda global y fichas individuales.
+- PWA opcional mediante configuración.
+- Panel de administración humano con borradores, preview y protección de cambios sin guardar.
+- Branding, features y secciones centralizados en `portal.config.json`.
+- Playwright, axe y visual smoke en GitHub Actions.
+- Datos de ejemplo identificados como demostrativos.
 
 ## Siguiente etapa opcional — persistencia real
 
 1. Autenticación para administradores.
-2. Base de datos para contenido y borradores.
+2. Base de datos para contenido, borradores y publicación.
 3. Storage para imágenes, audio y documentos.
 4. Roles y permisos.
 5. Historial de versiones y restauración.
-6. Publicación con revisión previa.
+6. Flujo borrador → revisión → publicación.
 7. Auditoría de cambios.
 
-Una implementación recomendada puede usar Supabase Auth + Postgres + Storage + RLS, aunque la interfaz no depende de ese proveedor.
+Supabase Auth + Postgres + Storage + RLS es una opción compatible, pero la interfaz no depende de ese proveedor.
 
-## Después de persistencia
+## Integraciones académicas opcionales
 
-- Edición colaborativa.
-- Flujo autor → revisor → publicación.
-- Integración ORCID / Crossref para metadatos académicos.
+- ORCID / Crossref para metadatos.
 - Importación BibTeX/RIS.
-- Métricas de contenido y visitas con una solución respetuosa de privacidad.
+- Exportación de citas en APA/BibTeX.
+- Sincronización de publicaciones desde fuentes externas verificadas.
+- Métricas respetuosas de privacidad.
 - Multi-perfil para departamentos, cuerpos académicos o grupos de investigación.
 
 ## Principio de arquitectura
 
-La demo debe seguir funcionando aunque ninguna integración opcional esté conectada. La capa de persistencia amplía el producto; no debe convertirse en un requisito para renderizar el portal público.
+La demo debe seguir funcionando aunque ninguna integración opcional esté conectada. Persistencia e integraciones amplían el producto; nunca deben ser requisito para renderizar la experiencia pública.
