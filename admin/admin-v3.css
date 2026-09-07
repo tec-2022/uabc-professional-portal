@@ -1,0 +1,88 @@
+/* Phase 3 — final administration UX layer */
+:root {
+  --admin-v3-ink:#122033;
+  --admin-v3-muted:#667383;
+  --admin-v3-line:#dce5e0;
+  --admin-v3-soft:#f5f8f6;
+  --admin-v3-green:#0b6b3a;
+  --admin-v3-gold:#c9a227;
+}
+
+.admin-save-state {
+  display:inline-flex;
+  align-items:center;
+  gap:.42rem;
+  min-height:2rem;
+  padding:.35rem .62rem;
+  border:1px solid var(--admin-v3-line);
+  border-radius:999px;
+  background:#fff;
+  color:var(--admin-v3-muted);
+  font-size:.76rem;
+  font-weight:700;
+  white-space:nowrap;
+}
+.admin-save-state::before {
+  content:"";
+  width:.48rem;
+  height:.48rem;
+  border-radius:999px;
+  background:#16a34a;
+}
+.admin-save-state[data-state="dirty"]::before { background:#d4a017; }
+.admin-save-state[data-state="saved"]::before { background:#16a34a; }
+.admin-save-state[data-state="loading"]::before { background:#64748b; }
+
+.admin-section-guide {
+  margin:0 0 1rem;
+  padding:.8rem .9rem;
+  border:1px solid var(--admin-v3-line);
+  border-radius:.8rem;
+  background:var(--admin-v3-soft);
+  color:var(--admin-v3-muted);
+  font-size:.84rem;
+  line-height:1.55;
+}
+.admin-section-guide strong { color:var(--admin-v3-ink); }
+
+.field-card:focus-within,
+.field-row:focus-within,
+.array-item:focus-within {
+  border-color:#9fc4b2 !important;
+  box-shadow:0 0 0 3px rgba(11,107,58,.08) !important;
+}
+
+.editor :where(input,textarea,select) {
+  caret-color:var(--admin-v3-green);
+}
+.editor :where(input,textarea,select):focus-visible,
+.admin-shell :where(button,a,summary):focus-visible {
+  outline:3px solid rgba(11,107,58,.18) !important;
+  outline-offset:2px !important;
+}
+
+.admin-preview-badge {
+  display:inline-flex;
+  align-items:center;
+  gap:.35rem;
+  margin-left:.5rem;
+  color:var(--admin-v3-muted);
+  font-size:.72rem;
+  font-weight:700;
+}
+.admin-preview-badge::before {
+  content:"";
+  width:.42rem;
+  height:.42rem;
+  border-radius:999px;
+  background:#16a34a;
+}
+
+body.admin-has-unsaved .notice {
+  border-color:#ead6a2;
+  background:#fffaf0;
+}
+
+@media (max-width:900px) {
+  .admin-save-state { order:3; width:100%; justify-content:center; }
+}
