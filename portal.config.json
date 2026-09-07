@@ -1,0 +1,29 @@
+{
+  "template": {
+    "name": "Academic Professional Portal",
+    "version": "2.1.0",
+    "mode": "demo",
+    "sampleData": true,
+    "adminPublishing": false
+  },
+  "site": {
+    "baseUrl": "https://prueba-pi-eight.vercel.app",
+    "title": "Academic Professional Portal · Demo",
+    "shortTitle": "Academic Portal Demo",
+    "description": "Plantilla profesional para portales académicos con perfil, publicaciones, investigación, docencia, eventos, blog, galería y podcast.",
+    "language": "es-MX",
+    "themeColor": "#083321"
+  },
+  "demo": {
+    "label": "Demo · Datos de ejemplo",
+    "notice": "El contenido mostrado es demostrativo y sirve para ilustrar la plantilla. No representa un sitio institucional oficial.",
+    "showNotice": true
+  },
+  "features": {
+    "search": true,
+    "pwa": true,
+    "rss": true,
+    "details": true,
+    "adminStudio": true
+  }
+}
