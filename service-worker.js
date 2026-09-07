@@ -1,4 +1,4 @@
-const CACHE = 'uabc-portal-v4-20260907';
+const CACHE = 'uabc-portal-v5-path-router-20260907';
 const CORE = [
   '/', '/offline.html', '/manifest.webmanifest',
   '/assets/css/tailwind.css', '/assets/css/styles.css', '/assets/css/layout-fixes.css', '/assets/css/enhancements.css',
@@ -51,8 +51,8 @@ self.addEventListener('activate', event => {
     await Promise.all(keys.filter(key => key !== CACHE).map(key => caches.delete(key)));
     await self.clients.claim();
 
-    // One-time refresh after this new worker takes control so tabs cannot keep
-    // executing the obsolete router bundle that caused every menu item to show Home.
+    // One-time refresh after this worker takes control so open tabs cannot keep
+    // executing any obsolete hash-router bundle.
     const clients = await self.clients.matchAll({ type: 'window', includeUncontrolled: true });
     await Promise.all(clients.map(client => {
       try { return client.navigate(client.url); } catch { return null; }
