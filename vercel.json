@@ -36,8 +36,20 @@
       ]
     },
     {
-      "source":"/assets/(.*)",
-      "headers":[{"key":"Cache-Control","value":"public, max-age=3600, stale-while-revalidate=86400"}]
+      "source":"/assets/js/(.*)",
+      "headers":[{"key":"Cache-Control","value":"no-cache, max-age=0, must-revalidate"}]
+    },
+    {
+      "source":"/assets/css/(.*)",
+      "headers":[{"key":"Cache-Control","value":"no-cache, max-age=0, must-revalidate"}]
+    },
+    {
+      "source":"/assets/data/(.*)",
+      "headers":[{"key":"Cache-Control","value":"no-cache, max-age=0, must-revalidate"}]
+    },
+    {
+      "source":"/assets/icons/(.*)",
+      "headers":[{"key":"Cache-Control","value":"public, max-age=86400, stale-while-revalidate=604800"}]
     },
     {
       "source":"/service-worker.js",
