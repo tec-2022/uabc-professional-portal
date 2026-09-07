@@ -177,6 +177,17 @@ a[data-demo-link="true"] {
   letter-spacing:.04em;
   text-transform:uppercase;
 }
+.detail-placeholder {
+  display:inline-flex;
+  align-items:center;
+  padding:.24rem .52rem;
+  border-radius:999px;
+  background:#f3f6f4;
+  border:1px dashed #cbd8d1;
+  color:#64748b;
+  font-size:.78rem;
+  font-weight:650;
+}
 
 /* Sidebar legal copy looks deliberate instead of legacy footer text. */
 #sidebar [data-portal-copyright] {
@@ -199,6 +210,7 @@ a[data-demo-link="true"] {
 .dark .detail-page { background:#0f172a; }
 .dark .detail-card { background:#1e293b; border-color:#334155; }
 .dark .detail-grid dd { color:#e2e8f0; }
+.dark .detail-placeholder { background:#172033; border-color:#475569; color:#cbd5e1; }
 
 @media (max-width:767px) {
   .template-demo-notice {
