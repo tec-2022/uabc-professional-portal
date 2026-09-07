@@ -27,14 +27,14 @@ jobs:
       - name: Visual smoke capture
         run: npm run test:visual
       - name: Upload production bundle
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v7
         with:
           name: dist
           path: dist
           retention-days: 7
       - name: Upload browser quality artifacts
         if: always()
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v7
         with:
           name: browser-quality
           path: |
