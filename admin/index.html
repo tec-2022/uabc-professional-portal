@@ -5,27 +5,94 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta name="robots" content="noindex,nofollow,noarchive">
   <meta name="theme-color" content="#083321">
-  <title>Admin Studio · UABC Professional Portal</title>
+  <title>Panel de administración · Portal Académico</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="/admin/admin.css">
   <link rel="stylesheet" href="/admin/admin-enhancements.css">
+  <link rel="stylesheet" href="/admin/admin-friendly.css">
 </head>
 <body>
   <div class="admin-shell">
     <aside class="sidebar">
-      <a class="brand" href="/" target="_blank" rel="noopener noreferrer"><span class="brand-mark">U</span><span><strong>Admin Studio</strong><small>Portal profesional</small></span></a>
-      <div class="mode-card"><span class="status-dot"></span><div><strong>Modo preparación</strong><small>Sin migración · sin publicación</small></div></div>
+      <a class="brand" href="/" target="_blank" rel="noopener noreferrer">
+        <span class="brand-mark">U</span>
+        <span><strong>Panel de administración</strong><small>Portal académico</small></span>
+      </a>
+
+      <div class="mode-card">
+        <span class="status-dot"></span>
+        <div><strong>Edición segura</strong><small>Los cambios no afectan al sitio publicado</small></div>
+      </div>
+
       <nav id="sectionNav" class="section-nav" aria-label="Secciones del contenido"></nav>
-      <div class="sidebar-bottom"><button id="loadCurrentBtn" class="btn secondary full" type="button">Recargar contenido actual</button><a class="btn ghost full" href="/" target="_blank" rel="noopener noreferrer">Abrir portal público ↗</a></div>
+
+      <div class="sidebar-bottom">
+        <button id="loadCurrentBtn" class="btn secondary full" type="button">Volver a cargar el contenido</button>
+        <a class="btn ghost full" href="/" target="_blank" rel="noopener noreferrer">Ver portal público ↗</a>
+      </div>
     </aside>
+
     <main class="workspace">
-      <header class="topbar"><div><p class="eyebrow">UABC PROFESSIONAL PORTAL</p><h1>Gestor de contenido</h1><p id="statusText" class="muted">Cargando una copia segura del contenido público…</p></div><div class="top-actions"><button id="importBtn" class="btn ghost" type="button">Importar JSON</button><button id="exportBtn" class="btn ghost" type="button">Exportar JSON</button><button id="saveBtn" class="btn primary" type="button">Guardar borrador</button><button class="btn publish" type="button" disabled title="Se habilitará cuando exista backend y autenticación">Publicar</button><input id="importInput" type="file" accept="application/json,.json" hidden></div></header>
-      <section class="notice" aria-label="Estado del admin"><div><strong>El portal público no se modifica desde aquí.</strong><span>Los cambios se guardan únicamente como borrador local en este navegador hasta que se conecte un backend real.</span></div><button id="discardBtn" class="text-button" type="button">Descartar borrador</button></section>
-      <div class="content-grid"><section class="editor-card"><div class="card-head"><div><p class="eyebrow">SECCIÓN</p><h2 id="sectionTitle">Contenido</h2></div><span id="dirtyBadge" class="badge hidden">Cambios sin guardar</span></div><div id="editor" class="editor"></div></section><aside class="preview-card"><div class="card-head preview-head"><div><p class="eyebrow">PREVISUALIZACIÓN</p><h2>Vista del portal</h2></div><div class="viewport-switch" role="group" aria-label="Tamaño de vista"><button class="viewport-btn active" data-width="100%" type="button">Desktop</button><button class="viewport-btn" data-width="390px" type="button">Móvil</button></div></div><div class="preview-stage"><iframe id="previewFrame" title="Previsualización del portal"></iframe></div><p class="preview-note">La vista usa tu borrador en memoria. No publica ni altera el sitio real.</p></aside></div>
+      <header class="topbar">
+        <div>
+          <p class="eyebrow">PORTAL ACADÉMICO</p>
+          <h1>Administrar contenido</h1>
+          <p id="statusText" class="muted">Preparando una copia editable del contenido…</p>
+        </div>
+
+        <div class="top-actions">
+          <button id="saveBtn" class="btn primary" type="button">Guardar borrador</button>
+          <button class="btn publish" type="button" disabled title="Estará disponible cuando se active la publicación en línea">Publicar cambios</button>
+
+          <details class="admin-advanced">
+            <summary class="btn ghost">Más opciones</summary>
+            <div class="advanced-menu">
+              <button id="importBtn" class="btn ghost" type="button">Cargar una copia</button>
+              <button id="exportBtn" class="btn ghost" type="button">Descargar una copia</button>
+            </div>
+          </details>
+          <input id="importInput" type="file" accept="application/json,.json" hidden>
+        </div>
+      </header>
+
+      <section class="notice" aria-label="Estado de la edición">
+        <div>
+          <strong>Puedes editar con tranquilidad.</strong>
+          <span>Todo se guarda como borrador en este navegador. El portal público permanece sin cambios.</span>
+        </div>
+        <button id="discardBtn" class="text-button" type="button">Deshacer borrador</button>
+      </section>
+
+      <div class="content-grid">
+        <section class="editor-card">
+          <div class="card-head">
+            <div><p class="eyebrow">SECCIÓN ACTUAL</p><h2 id="sectionTitle">Contenido</h2></div>
+            <span id="dirtyBadge" class="badge hidden">Cambios pendientes de guardar</span>
+          </div>
+          <div id="editor" class="editor"></div>
+        </section>
+
+        <aside class="preview-card">
+          <div class="card-head preview-head">
+            <div><p class="eyebrow">VISTA PREVIA</p><h2>Así se verá</h2></div>
+            <div class="viewport-switch" role="group" aria-label="Tamaño de vista">
+              <button class="viewport-btn active" data-width="100%" type="button">Computadora</button>
+              <button class="viewport-btn" data-width="390px" type="button">Celular</button>
+            </div>
+          </div>
+          <div class="preview-stage"><iframe id="previewFrame" title="Vista previa del portal"></iframe></div>
+          <p class="preview-note">Esta vista utiliza tu borrador. No cambia el portal publicado.</p>
+        </aside>
+      </div>
     </main>
   </div>
-  <iframe id="sourceFrame" class="source-frame" src="/#/home" title="Fuente de contenido"></iframe><div id="toast" class="toast" role="status" aria-live="polite"></div><script src="/admin/admin.js"></script><script src="/admin/dashboard.js"></script>
+
+  <iframe id="sourceFrame" class="source-frame" src="/" title="Fuente del contenido"></iframe>
+  <div id="toast" class="toast" role="status" aria-live="polite"></div>
+  <script src="/admin/admin.js"></script>
+  <script src="/admin/dashboard.js"></script>
+  <script src="/admin/admin-friendly.js"></script>
 </body>
 </html>
