@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+Disallow: /admin/
+Sitemap: https://prueba-pi-eight.vercel.app/sitemap.xml

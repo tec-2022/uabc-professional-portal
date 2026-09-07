@@ -1,0 +1,14 @@
+{
+  "name": "UABC Professional Portal",
+  "short_name": "Portal UABC",
+  "description": "Portal académico y profesional del Dr. Eduardo Ahumada-Tello.",
+  "start_url": "/",
+  "scope": "/",
+  "display": "standalone",
+  "background_color": "#f8fafc",
+  "theme_color": "#083321",
+  "lang": "es-MX",
+  "icons": [
+    {"src":"/assets/icons/portal-icon.svg","sizes":"any","type":"image/svg+xml","purpose":"any maskable"}
+  ]
+}

@@ -1,0 +1,17 @@
+{
+  "name": "uabc-professional-portal",
+  "version": "2.0.0",
+  "private": true,
+  "description": "Portal académico/profesional UABC con build estático, CMS preparado y Admin Studio.",
+  "scripts": {
+    "build": "node scripts/build.mjs && tailwindcss -c tailwind.config.cjs -i assets/css/tailwind-input.css -o dist/assets/css/tailwind.css --minify",
+    "audit": "node scripts/audit.mjs",
+    "check": "npm run build && npm run audit"
+  },
+  "devDependencies": {
+    "tailwindcss": "3.4.17"
+  },
+  "engines": {
+    "node": ">=20"
+  }
+}
