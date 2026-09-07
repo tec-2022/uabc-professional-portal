@@ -1,8 +1,8 @@
 {
-  "name": "uabc-professional-portal",
-  "version": "2.0.0",
+  "name": "academic-professional-portal-template",
+  "version": "2.1.0",
   "private": true,
-  "description": "Portal académico/profesional UABC con build estático, CMS preparado y Admin Studio.",
+  "description": "Professional reusable academic portal template with sample data, static build, PWA, SEO and prepared Admin Studio.",
   "scripts": {
     "build": "node scripts/build.mjs && tailwindcss -c tailwind.config.cjs -i assets/css/tailwind-input.css -o dist/assets/css/tailwind.css --minify",
     "audit": "node scripts/audit.mjs",
