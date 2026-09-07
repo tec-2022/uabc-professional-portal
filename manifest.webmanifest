@@ -1,7 +1,7 @@
 {
-  "name": "UABC Professional Portal",
-  "short_name": "Portal UABC",
-  "description": "Portal académico y profesional del Dr. Eduardo Ahumada-Tello.",
+  "name": "Academic Professional Portal · Demo",
+  "short_name": "Academic Portal",
+  "description": "Plantilla profesional demostrativa para portales académicos y de investigación.",
   "start_url": "/",
   "scope": "/",
   "display": "standalone",
