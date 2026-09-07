@@ -19,6 +19,8 @@ const app = await readFile('dist/assets/js/app.js','utf8');
 const content = await readFile('dist/assets/data/content.js','utf8');
 const admin = await readFile('dist/admin/index.html','utf8');
 const manifest = await readFile('dist/manifest.webmanifest','utf8');
+const serviceWorker = await readFile('dist/service-worker.js','utf8');
+const vercel = await readFile('vercel.json','utf8');
 const templateInfo = JSON.parse(await readFile('dist/template-info.json','utf8'));
 const cssSize = (await stat('dist/assets/css/tailwind.css')).size;
 
@@ -37,6 +39,8 @@ if (/Dr\. Eduardo Ahumada-Tello/i.test(manifest)) fail('Manifest PWA sigue ligad
 const appScriptPos = index.indexOf('assets/js/app.js');
 const enhancementsScriptPos = index.indexOf('assets/js/enhancements.js');
 if (appScriptPos < 0 || enhancementsScriptPos < 0 || appScriptPos > enhancementsScriptPos) fail('Orden de scripts puede hacer que rutas limpias regresen a Inicio'); else pass('Router se inicializa antes de limpiar la URL');
+if (/uabc-portal-v2/.test(serviceWorker) || !/networkFirst/.test(serviceWorker) || !/cache:\s*'no-cache'/.test(serviceWorker)) fail('Service Worker puede servir bundles JS/CSS obsoletos'); else pass('Service Worker prioriza bundles frescos y versiona su caché');
+if (!/assets\/js\/\(\.\*\)[\s\S]*no-cache, max-age=0, must-revalidate/.test(vercel)) fail('Vercel permite cachear JavaScript de la app demasiado tiempo'); else pass('JavaScript de aplicación se revalida en cada actualización');
 
 if (failures) {
   console.error(`\nAuditoría falló con ${failures} problema(s).`);
