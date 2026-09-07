@@ -1,63 +1,139 @@
-# UABC Professional Portal
+# Academic Professional Portal
 
-Portal académico/profesional estático con navegación tipo SPA, modo oscuro, contenido bilingüe, publicaciones, investigación, docencia, eventos, blog, galería, podcast y un **Admin Studio preparado sin backend ni migración**.
+![Quality Gate](https://github.com/tec-2022/uabc-professional-portal/actions/workflows/quality.yml/badge.svg)
 
-## Estado
+**Plantilla profesional y reutilizable para portales académicos y de investigación.** Incluye perfil, publicaciones, investigación, docencia, eventos, blog, galería, podcast, búsqueda global, PWA y un Admin Studio preparado para una futura capa de persistencia.
 
-La web pública continúa usando el contenido existente del proyecto. Durante el build, ese contenido se extrae automáticamente a una capa de datos independiente para producción; **no se mueve a Supabase ni a ninguna base de datos**.
+> **Demo con datos de ejemplo.** El contenido incluido existe para demostrar componentes y flujos realistas. No debe interpretarse como un sitio institucional oficial ni como una fuente de información académica verificada.
 
-## Mejoras de la versión 2
+## Demo
 
-- Tailwind compilado localmente: producción deja de depender de `cdn.tailwindcss.com`.
-- Build reproducible a `dist/`.
-- `CMS_CONTENT` separado de la lógica en el bundle de producción.
-- Rutas limpias (`/publicaciones`, `/investigacion`, `/blog`, etc.) con puente compatible con el router histórico.
-- Metadata SEO por sección, canonical real y Schema.org `Person`.
-- `sitemap.xml`, RSS y fichas individuales generadas para contenido estructurado.
-- Buscador global con índice generado en build.
-- Mejoras de accesibilidad: skip link, foco por navegación, `aria-current`, atajo `/` para búsqueda y reducción de movimiento.
-- Mejoras de performance: lazy loading progresivo y CSS local.
-- Headers de seguridad desde Vercel.
-- PWA opcional con manifest, offline básico y Service Worker.
-- Quality Gate en GitHub Actions.
-- Admin Studio con dashboard de salud de contenido, detección de campos vacíos, bilingüe incompleto, duplicados y biblioteca de medios preparada.
+https://prueba-pi-eight.vercel.app
 
-## Desarrollo
+Admin Studio de preparación:
 
-Requiere Node.js 20+.
+https://prueba-pi-eight.vercel.app/admin
+
+El Admin Studio **no publica cambios** y no simula autenticación. Los borradores se guardan localmente hasta que se conecte un backend real.
+
+## Qué incluye
+
+- Portal responsive tipo SPA con navegación lateral.
+- Tema claro/oscuro y contenido bilingüe ES/EN.
+- Perfil académico, experiencia y formación.
+- Publicaciones con búsqueda, filtros y fichas individuales.
+- Investigación, proyectos y grupo de trabajo.
+- Docencia, cursos y materiales.
+- Eventos y calendario.
+- Blog académico.
+- Galería y lightbox.
+- Podcast con reproductor flotante.
+- Buscador global generado en build.
+- SEO técnico, Open Graph, Schema.org, sitemap y RSS.
+- PWA opcional con manifest, Service Worker y fallback offline.
+- Tailwind compilado localmente.
+- Headers de seguridad en Vercel.
+- Admin Studio con edición local, import/export JSON, preview, auditoría de contenido y biblioteca de medios preparada.
+- Quality Gate automático con GitHub Actions.
+
+## Filosofía de la base
+
+Este repositorio prioriza una demo que **se vea terminada aunque use sample data**. La arquitectura separa tres conceptos:
+
+1. **Plantilla:** interfaz, build, navegación, SEO, accesibilidad y herramientas.
+2. **Datos demo:** contenido de ejemplo que permite probar todos los estados de la UI.
+3. **Persistencia futura:** backend opcional; actualmente no existe migración ni publicación remota.
+
+La configuración general vive en `portal.config.json`.
+
+## Inicio rápido
+
+Requiere Node.js 24 recomendado (20+ compatible con el proyecto).
 
 ```bash
 npm install
-npm run build
-npm run audit
+npm run check
 ```
 
-`npm run check` ejecuta build + auditoría estructural. El resultado de producción se genera en `dist/`.
+Para generar únicamente producción:
 
-## Estructura clave
+```bash
+npm run build
+```
 
-- `index.html`: fuente del portal público.
-- `assets/js/app.js`: router/renderers e interacciones históricas.
-- `assets/css/styles.css`: estilos específicos.
-- `assets/css/layout-fixes.css`: hardening responsive.
-- `assets/css/enhancements.css`: accesibilidad, buscador y páginas detalle.
-- `scripts/build.mjs`: build, separación de datos, SEO técnico, fichas e índices.
-- `scripts/audit.mjs`: comprobaciones de regresión.
-- `admin/`: Admin Studio en modo preparación.
-- `docs/ARCHITECTURE.md`: arquitectura y ruta futura a backend.
+El resultado se escribe en `dist/`.
+
+## Arquitectura
+
+```text
+.
+├── admin/                  # Admin Studio en modo preparación
+├── assets/
+│   ├── css/                # Tailwind input + estilos del portal
+│   └── js/                 # Router, renderers y mejoras progresivas
+├── docs/                   # Arquitectura, personalización y datos demo
+├── scripts/
+│   ├── build.mjs           # Build, SEO, índices y extracción de contenido
+│   └── audit.mjs           # Quality Gate estructural
+├── portal.config.json      # Configuración de la plantilla/demo
+├── tailwind.config.cjs
+├── vercel.json
+└── index.html
+```
+
+Durante el build, `CMS_CONTENT` se extrae a una capa independiente dentro de `dist/assets/data/`. **La fuente original no se migra a Supabase ni a ninguna base de datos.**
+
+## Personalización
+
+Consulta [`docs/CUSTOMIZATION.md`](docs/CUSTOMIZATION.md).
+
+Ahí se documenta cómo cambiar identidad, dominio, branding, contenido, assets y posteriormente conectar un backend sin rehacer la interfaz.
+
+## Datos de demostración
+
+Consulta [`docs/DEMO-DATA.md`](docs/DEMO-DATA.md).
+
+Los placeholders —por ejemplo enlaces `#`, DOI de muestra o imágenes remotas— se conservan para demostrar los estados soportados por la plantilla. Una implementación real debe sustituirlos y validar derechos de uso.
 
 ## Admin Studio
 
 Ruta: `/admin`
 
-Actualmente puede editar una copia, guardar borradores locales, importar/exportar JSON, previsualizar, auditar contenido y revisar medios. **Publicar permanece bloqueado** hasta conectar un backend con autenticación real.
+Actualmente permite:
 
-## Deploy
+- cargar una copia del contenido existente;
+- editar estructuras bilingües;
+- añadir, duplicar, eliminar y reordenar registros;
+- guardar borradores en `localStorage`;
+- importar/exportar JSON;
+- previsualizar escritorio/móvil;
+- revisar salud del contenido y recursos multimedia.
 
-Vercel ejecuta `npm run build` y sirve `dist/`. El deployment conserva la integración Git existente.
+**Publicar permanece bloqueado** hasta conectar autenticación y backend reales.
 
-Demo: https://prueba-pi-eight.vercel.app
+## Calidad y CI
+
+Cada push/PR ejecuta `npm run check` en GitHub Actions. La auditoría verifica, entre otros puntos:
+
+- build reproducible;
+- Tailwind local en producción;
+- separación de contenido y lógica;
+- archivos PWA/SEO generados;
+- menú sin duplicados;
+- Admin Studio sin publicación insegura.
+
+## Seguridad
+
+Consulta [`SECURITY.md`](SECURITY.md). Nunca deben almacenarse tokens o secretos en el repositorio.
+
+## Contribuir
+
+Consulta [`CONTRIBUTING.md`](CONTRIBUTING.md).
 
 ## Backend futuro
 
-La arquitectura está preparada para Supabase Auth + Postgres + Storage + RLS, pero esa activación y la migración de contenido deben hacerse únicamente cuando se autoricen de forma explícita.
+La base está preparada para conectar posteriormente Supabase Auth + Postgres + Storage + RLS u otra solución equivalente. Esa fase es opcional y debe mantener la separación entre contenido publicado, borradores y permisos.
+
+---
+
+**Estado:** base profesional demostrativa · sample data · sin migración de backend.
