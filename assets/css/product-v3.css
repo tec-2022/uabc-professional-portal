@@ -149,10 +149,85 @@ html.dark .portal-card-tool[data-state="done"] { color:#9de0bb !important; }
   background:#16a34a;
 }
 
+/* Gallery lightbox is a true viewport modal.
+ * AOS keeps transforms on animated sections; without this reset, a fixed
+ * descendant is positioned relative to the gallery section instead of the viewport.
+ */
+#app > section:has(#uabcLb) {
+  transform:none !important;
+}
+.uabc-lightbox {
+  inset:0 !important;
+  width:100vw !important;
+  height:100dvh !important;
+  max-width:none !important;
+  max-height:none !important;
+  padding:clamp(.75rem,2vw,1.5rem) !important;
+  align-items:center !important;
+  justify-content:center !important;
+  z-index:1000 !important;
+}
+.uabc-lb-back {
+  background:rgba(2,6,23,.76) !important;
+  backdrop-filter:blur(7px) saturate(.85);
+}
+.uabc-lb-dialog {
+  width:min(70rem,calc(100vw - 2rem)) !important;
+  max-width:calc(100vw - 2rem) !important;
+  max-height:calc(100dvh - 2rem) !important;
+  margin:auto !important;
+  border:1px solid rgba(148,163,184,.24);
+  background:#0b1220 !important;
+  color:#e5edf6 !important;
+  box-shadow:0 32px 90px rgba(0,0,0,.52) !important;
+}
+.uabc-lb-head {
+  flex:0 0 auto;
+  min-height:4.25rem;
+  background:#0f172a !important;
+  border-bottom-color:#334155 !important;
+}
+.uabc-lb-head h3,
+#uabcLbTitle {
+  color:#f8fafc !important;
+  text-shadow:none !important;
+}
+.uabc-lb-head .uabc-icon {
+  flex:0 0 auto;
+  color:#f8fafc !important;
+  background:#162033 !important;
+  border-color:#475569 !important;
+}
+.uabc-lb-head .uabc-icon:hover,
+.uabc-lb-head .uabc-icon:focus-visible {
+  background:#c9a227 !important;
+  border-color:#c9a227 !important;
+  color:#111827 !important;
+}
+.uabc-view {
+  flex:1 1 auto;
+  min-height:0 !important;
+  max-height:min(68dvh,42rem);
+  background:#05080e !important;
+}
+.uabc-view img {
+  background:#05080e !important;
+}
+.uabc-thumbs {
+  flex:0 0 auto;
+  max-height:7.5rem;
+  scrollbar-width:none;
+}
+.uabc-thumbs::-webkit-scrollbar { display:none; }
+.uabc-nav {
+  box-shadow:0 8px 24px rgba(0,0,0,.28);
+}
+
 /* Consistent interactive focus treatment. */
 #app :where(a,button,input,select,textarea):focus-visible,
 #sidebar :where(a,button):focus-visible,
-.global-search-dialog :where(a,button,input):focus-visible {
+.global-search-dialog :where(a,button,input):focus-visible,
+.uabc-lightbox :where(button,img[tabindex]):focus-visible {
   outline:3px solid color-mix(in srgb,var(--ui-link) 40%,transparent) !important;
   outline-offset:2px !important;
 }
@@ -171,6 +246,28 @@ html.dark .portal-card-tool[data-state="done"] { color:#9de0bb !important; }
 
 @media (max-width:900px) {
   .portal-home-summary { grid-template-columns:repeat(2,minmax(0,1fr)); }
+}
+@media (max-width:767px) {
+  .uabc-lightbox { padding:.5rem !important; }
+  .uabc-lb-dialog {
+    width:calc(100vw - 1rem) !important;
+    max-width:calc(100vw - 1rem) !important;
+    max-height:calc(100dvh - 1rem) !important;
+    border-radius:1rem !important;
+  }
+  .uabc-lb-head {
+    min-height:3.5rem;
+    padding:.65rem .8rem !important;
+  }
+  .uabc-lb-head h3,
+  #uabcLbTitle { font-size:1rem !important; }
+  .uabc-icon { width:2.35rem !important; height:2.35rem !important; }
+  .uabc-view { max-height:calc(100dvh - 10.5rem); }
+  .uabc-nav { width:2.5rem !important; height:2.5rem !important; }
+  .uabc-nav.prev { left:.65rem !important; }
+  .uabc-nav.next { right:.65rem !important; }
+  .uabc-thumbs { padding:.65rem !important; gap:.55rem !important; }
+  .uabc-thumbs img { width:5.25rem !important; height:3.5rem !important; }
 }
 @media (max-width:520px) {
   .portal-home-summary { grid-template-columns:1fr 1fr; gap:.65rem; }
