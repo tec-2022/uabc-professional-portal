@@ -1,5 +1,9 @@
 # Academic Professional Portal
 
+**Español** · [English](README.en.md) · [Demo](https://prueba-pi-eight.vercel.app) · [Patrocinar](https://github.com/sponsors/tec-2022)
+
+[![Demostración de Academic Professional Portal](docs/media/demo.gif)](docs/media/demo.mp4)
+
 ![Quality Gate](https://github.com/tec-2022/uabc-professional-portal/actions/workflows/quality.yml/badge.svg)
 
 **Plantilla profesional y reutilizable para perfiles académicos, docencia e investigación.** La versión 3.0 consolida la demo como un producto completo: sistema visual único en producción, navegación limpia, administración amigable y controles automáticos de calidad en navegador.
