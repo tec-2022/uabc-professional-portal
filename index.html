@@ -60,7 +60,7 @@
       class="bg-primary-900 text-white p-6 shadow-soft
              fixed inset-y-0 left-0 w-80 -translate-x-full transition-transform duration-300 z-50
              md:relative md:translate-x-0 md:sticky md:top-0 md:h-screen md:w-auto"
-      aria-hidden="true">
+      aria-hidden="true" inert>
       <!-- Botón cerrar móvil -->
       <button id="closeSidebarBtn" class="md:hidden absolute top-4 right-4 inline-flex items-center justify-center rounded-md bg-white/10 hover:bg-white/20 p-2" aria-label="Cerrar menú">
         <i data-feather="x" class="w-5 h-5"></i>
@@ -776,7 +776,7 @@
 
   <script src="assets/js/app.js"></script>
   <!-- 🔊 Reproductor de Podcast Flotante -->
-  <div id="podcastPlayer" class="fixed bottom-0 left-0 right-0 z-[80] transform translate-y-full transition-transform duration-300 ease-in-out">
+  <div id="podcastPlayer" inert class="fixed bottom-0 left-0 right-0 z-[80] transform translate-y-full transition-transform duration-300 ease-in-out">
     <div class="bg-white dark:bg-slate-900 border-t border-slate-200 dark:border-slate-700 shadow-2xl">
       <div class="max-w-5xl mx-auto px-4 py-3">
         <div class="flex items-center justify-between gap-4">
@@ -793,13 +793,13 @@
 
           <!-- Controles de reproducción -->
           <div class="flex items-center gap-3">
-            <button id="podcastPlayerPrev" class="w-8 h-8 rounded-full border border-slate-300 dark:border-slate-600 flex items-center justify-center hover:bg-slate-100 dark:hover:bg-slate-800">
+            <button id="podcastPlayerPrev" aria-label="Episodio anterior" class="w-8 h-8 rounded-full border border-slate-300 dark:border-slate-600 flex items-center justify-center hover:bg-slate-100 dark:hover:bg-slate-800">
               <i data-feather="skip-back" class="w-4 h-4"></i>
             </button>
-            <button id="podcastPlayerPlayPause" class="w-10 h-10 rounded-full bg-primary-600 text-white flex items-center justify-center hover:bg-primary-700">
+            <button id="podcastPlayerPlayPause" aria-label="Reproducir o pausar" class="w-10 h-10 rounded-full bg-primary-600 text-white flex items-center justify-center hover:bg-primary-700">
               <i data-feather="play" class="w-5 h-5" id="podcastPlayerPlayIcon"></i>
             </button>
-            <button id="podcastPlayerNext" class="w-8 h-8 rounded-full border border-slate-300 dark:border-slate-600 flex items-center justify-center hover:bg-slate-100 dark:hover:bg-slate-800">
+            <button id="podcastPlayerNext" aria-label="Episodio siguiente" class="w-8 h-8 rounded-full border border-slate-300 dark:border-slate-600 flex items-center justify-center hover:bg-slate-100 dark:hover:bg-slate-800">
               <i data-feather="skip-forward" class="w-4 h-4"></i>
             </button>
           </div>
@@ -811,20 +811,20 @@
               <div class="h-1 bg-slate-200 dark:bg-slate-700 rounded-full overflow-hidden">
                 <div id="podcastPlayerProgress" class="h-full bg-primary-600 w-0"></div>
               </div>
-              <input type="range" id="podcastPlayerSeek" class="absolute inset-0 w-full h-full opacity-0 cursor-pointer" min="0" max="100" value="0">
+              <input type="range" id="podcastPlayerSeek" aria-label="Posición de reproducción" class="absolute inset-0 w-full h-full opacity-0 cursor-pointer" min="0" max="100" value="0">
             </div>
             <span id="podcastPlayerDuration" class="text-xs text-slate-500 dark:text-slate-400 w-12">0:00</span>
           </div>
 
           <!-- Controles adicionales -->
           <div class="flex items-center gap-2">
-            <button id="podcastPlayerVolumeBtn" class="w-8 h-8 rounded-full border border-slate-300 dark:border-slate-600 flex items-center justify-center hover:bg-slate-100 dark:hover:bg-slate-800">
+            <button id="podcastPlayerVolumeBtn" aria-label="Ajustar volumen" class="w-8 h-8 rounded-full border border-slate-300 dark:border-slate-600 flex items-center justify-center hover:bg-slate-100 dark:hover:bg-slate-800">
               <i data-feather="volume-2" class="w-4 h-4"></i>
             </button>
             <div id="podcastPlayerVolumeContainer" class="hidden items-center gap-2">
-              <input type="range" id="podcastPlayerVolume" class="w-20" min="0" max="100" value="80">
+              <input type="range" id="podcastPlayerVolume" aria-label="Volumen" class="w-20" min="0" max="100" value="80">
             </div>
-            <button id="podcastPlayerClose" class="w-8 h-8 rounded-full border border-slate-300 dark:border-slate-600 flex items-center justify-center hover:bg-slate-100 dark:hover:bg-slate-800">
+            <button id="podcastPlayerClose" aria-label="Cerrar reproductor" class="w-8 h-8 rounded-full border border-slate-300 dark:border-slate-600 flex items-center justify-center hover:bg-slate-100 dark:hover:bg-slate-800">
               <i data-feather="x" class="w-4 h-4"></i>
             </button>
           </div>

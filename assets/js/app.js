@@ -1237,14 +1237,18 @@ if(templateId==='privacidad' || templateId==='cookies') {
       sidebar.classList.remove('-translate-x-full');
       sidebar.classList.add('translate-x-0');
       backdrop.classList.remove('opacity-0','pointer-events-none');
+      sidebar.inert = false;
       sidebar.setAttribute('aria-hidden','false');
       btnOpen?.setAttribute('aria-expanded','true');
       document.body.classList.add('overflow-hidden');
     }
     function closeSidebar(){
+      if (!sidebar || !isMobile()) return;
+      if (sidebar.contains(document.activeElement)) btnOpen?.focus();
       sidebar.classList.add('-translate-x-full');
       sidebar.classList.remove('translate-x-0');
       backdrop.classList.add('opacity-0','pointer-events-none');
+      sidebar.inert = true;
       sidebar.setAttribute('aria-hidden','true');
       btnOpen?.setAttribute('aria-expanded','false');
       document.body.classList.remove('overflow-hidden');
@@ -1289,18 +1293,27 @@ if(templateId==='privacidad' || templateId==='cookies') {
         });
       });
 
-      // Reset al cambiar de tamaño
-      window.addEventListener('resize', ()=>{
+      // Sincronizar también al cargar, no solo al cambiar de tamaño.
+      function syncSidebar(){
         if (!isMobile()) {
           sidebar.classList.remove('-translate-x-full', 'translate-x-0');
           backdrop.classList.add('opacity-0','pointer-events-none');
+          sidebar.inert = false;
           sidebar.setAttribute('aria-hidden','false');
           document.body.classList.remove('overflow-hidden');
           btnOpen?.setAttribute('aria-expanded','false');
         } else {
           closeSidebar();
         }
-      });
+      }
+      syncSidebar();
+      window.matchMedia('(max-width: 767px)').addEventListener('change', syncSidebar);
+      const player = document.getElementById('podcastPlayer');
+      if (player) {
+        const syncPlayer = () => { player.inert = player.classList.contains('translate-y-full'); };
+        syncPlayer();
+        new MutationObserver(syncPlayer).observe(player, { attributes:true, attributeFilter:['class'] });
+      }
     /* ---------- Dock Social (popup mejorado) ---------- */
     const socialDock   = document.getElementById('socialDock');
     const socialPanel  = document.getElementById('socialPanel');

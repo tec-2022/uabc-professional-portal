@@ -169,7 +169,7 @@
     const score = Math.max(0, Math.min(100, 100 - warnings * 4));
     const overview = document.createElement('div');
     overview.className = 'admin-quality-overview';
-    overview.innerHTML = `<div><strong>${score >= 90 ? 'Contenido en muy buen estado' : score >= 70 ? 'Contenido casi listo' : 'Contenido con elementos por revisar'}</strong><br><span>Indicador orientativo basado en campos pendientes, traducciones y posibles repeticiones.</span></div><div><div class="admin-quality-meter" aria-label="Calidad ${score}%"><i style="width:${score}%"></i></div><span>${score}% revisado</span></div>`;
+    overview.innerHTML = `<div><strong>${score >= 90 ? 'Contenido en muy buen estado' : score >= 70 ? 'Contenido casi listo' : 'Contenido con elementos por revisar'}</strong><br><span>Indicador orientativo basado en campos pendientes, traducciones y posibles repeticiones.</span></div><div><div class="admin-quality-meter" role="progressbar" aria-label="Revisión del contenido" aria-valuemin="0" aria-valuemax="100" aria-valuenow="${score}"><i style="width:${score}%"></i></div><span>${score}% revisado</span></div>`;
     dashboard.querySelector('.dash-head')?.insertAdjacentElement('afterend', overview);
   }
 

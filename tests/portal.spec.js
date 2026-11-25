@@ -33,10 +33,21 @@ test.describe('public portal', () => {
 
   test('menu uses clean route navigation', async ({ page }) => {
     await page.goto('/');
-    const link = page.getByRole('link',{ name:'Publicaciones', exact:true }).first();
+    const menu = page.locator('#mobileMenuBtn');
+    if (await menu.isVisible()) {
+      await expect(page.locator('#sidebar')).toHaveAttribute('inert','');
+      await menu.click();
+      await expect(menu).toHaveAttribute('aria-expanded','true');
+    }
+    await expect(page.locator('#sidebar')).toHaveAttribute('aria-hidden','false');
+    const link = page.locator('#sidebar').getByRole('link',{ name:'Publicaciones', exact:true });
     await link.click();
     await expect(page).toHaveURL(/\/publicaciones$/);
     await expect(page.locator('#app h2').first()).toContainText('Publicaciones');
+    if (await menu.isVisible()) {
+      await expect(menu).toHaveAttribute('aria-expanded','false');
+      await expect(page.locator('#sidebar')).toHaveAttribute('inert','');
+    }
   });
 
   test('dark and light themes keep semantic surfaces', async ({ page }) => {
